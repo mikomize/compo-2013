@@ -20,7 +20,6 @@ package models
 			
 			x = _pos.x*GameModel.TILE_WIDTH-GameModel.TILE_WIDTH;
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT-GameModel.TILE_HEIGHT;
-			trace(y);
 		}
 		
 		

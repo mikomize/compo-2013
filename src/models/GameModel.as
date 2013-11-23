@@ -58,8 +58,9 @@ package models
 			return _keyPressed;
 		}
 		
+		private var scrolled:Boolean = false;
+		
 		override public function advanceTime(time:Number):void {
-			_camera.scrollBot();
 			super.advanceTime(time);
 			_physicsEngine.update(time);
 			for each( var entity:Entity in _entities) {
@@ -87,7 +88,6 @@ package models
 			_injector.injectInto(entity);
 			entity.spawn();
 			_entities.push(entity);
-			trace(entity.y);
 			_camera.add(entity);
 		}
 		
@@ -118,6 +118,8 @@ package models
 					addEntity(tileEntity);
 				}
 			}
+			
+			
 			return this;
 		}
 		

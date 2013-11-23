@@ -4,8 +4,8 @@ package models
 	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
-	import starling.display.Quad;
 	import starling.display.Sprite;
+	import starling.events.Event;
 
 	public class Camera
 	{
@@ -18,21 +18,16 @@ package models
 			_viewport = new Sprite();
 			
 			
-			//_viewport.addChild(new Quad(viewport.width, viewport.height));
-			
 			_canvas = new Sprite();
 			_canvas.width = mapsize.width;
 			_canvas.height = mapsize.height;
 			
-			//_canvas.addChild(new Quad(mapsize.width, mapsize.height));
 			
 			_viewport.addChild(_canvas);
 			_viewport.width = viewport.width;
 			_viewport.height = viewport.height;
 			
 			_viewport.clipRect = viewport;
-			trace('aaaa');
-			trace([_viewport.width, _viewport.height]);
 			
 		}
 		
@@ -43,18 +38,21 @@ package models
 		
 		public function attach():void
 		{
+			_viewport.addEventListener(Event.ADDED_TO_STAGE, function ():void {
+				trace('added');
+				scrollBot();
+			})
 			Starling.current.stage.addChild(_viewport);
 		}
 		
 		public function set y(val:int):void 
 		{
 			_canvas.y = Math.max(Math.min(0, val), -(_canvas.height - _viewport.height) );
-			trace(_canvas.y);
 		}
 		
 		public function stick(val:int):void
 		{
-			
+			y = -val + _viewport.height / 2;
 		}
 		
 		public function get y():int

@@ -32,7 +32,7 @@ package models
 		{
 			setPosition(new Point(int(_tile.getAttrib(TileTypes.COLUMN_ATTR)), int(_tile.getAttrib(TileTypes.ROW_ATTR))));
 			if (_tile.getAttrib('material') == 'wood') {
-			addChild(new Quad(30, 30, 0x0348820));
+				addChild(new Quad(30, 30, 0x0348820));
 			}
 		}
 	}

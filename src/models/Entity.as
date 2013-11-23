@@ -18,11 +18,11 @@ package models
 		
 		public function spawn():void 
 		{
-
 		}
 		
 		public function updateView():void
 		{
+			
 		}
 		
 		public function setPosition(pt:Point):void
