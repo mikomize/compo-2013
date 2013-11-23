@@ -9,6 +9,8 @@ package models
 	
 	import flash.geom.Point;
 	
+	import maps.TileTypes;
+	
 	public class PhysicsEngine1 implements PhysicsEngineInterface
 	{
 		
@@ -37,12 +39,13 @@ package models
 			var colsCount:Number = getColsCount();
 			for(var row:Number=0;row<rowsCount;++row){
 				for(var col:Number=0;col<colsCount;++col){
-					if( _model.tileManager.getCell(row,col).getAttrib('spawnPoint') == 'p' + (index+1)){
+					if( _model.tileManager.getCell(row,col).getAttrib(TileTypes.SPAWN_POINT_ATTR) == 'p' + (index+1)){
+						trace("found!",row,col);
 						return new Point(col+.5,rowsCount-row-.5);
 					}
 				}
 			}
-			
+			trace("could not find spawning point for player",index);
 			
 			return index? new Point(1.5,10) : new Point(4.5,10);		
 		}
@@ -62,6 +65,7 @@ package models
 		}
 		private function createStaticRect(leftColumn:Number,bottomRow:Number,rightColumn:Number,topRow:Number):b2Body
 		{
+			//trace("robie prostokąt",leftColumn,bottomRow,rightColumn,topRow);
 			var groundBodyDef:b2BodyDef = new b2BodyDef();
 			groundBodyDef.position.Set((leftColumn+rightColumn)/2+.5, (bottomRow+topRow)/2+.5);
 			var groundBody:b2Body = _world.CreateBody(groundBodyDef);
@@ -88,8 +92,8 @@ package models
 			var colsCount:Number = getColsCount();
 			for(var row:Number=0;row<rowsCount;++row){
 				for(var col:Number=0;col<colsCount;++col){
-					var material:String = _model.tileManager.getCell(row,col).getAttrib('material');
-					if(material!="air"){
+					var material:String = _model.tileManager.getCell(row,col).getAttrib(TileTypes.MATERIAL_ATTR);
+					if(material!=TileTypes.AIR){
 						createStaticRect(col,rowsCount-row-1,col,rowsCount-row-1);
 					}
 				}
