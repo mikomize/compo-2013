@@ -45,9 +45,7 @@ package models
 					}
 				}
 			}
-			trace("could not find spawning point for player",index);
-			
-			return index? new Point(1.5,10) : new Point(4.5,10);		
+			throw new Error("Nie ma pola startowego dla gracza " + index);
 		}
 		private function spawnPlayer(index:Number):b2Body{
 			var bodyDef:b2BodyDef = new b2BodyDef();
@@ -65,7 +63,6 @@ package models
 		}
 		private function createStaticRect(leftColumn:Number,bottomRow:Number,rightColumn:Number,topRow:Number):b2Body
 		{
-			//trace("robie prostokąt",leftColumn,bottomRow,rightColumn,topRow);
 			var groundBodyDef:b2BodyDef = new b2BodyDef();
 			groundBodyDef.position.Set((leftColumn+rightColumn)/2+.5, (bottomRow+topRow)/2+.5);
 			var groundBody:b2Body = _world.CreateBody(groundBodyDef);
@@ -96,7 +93,7 @@ package models
 					for(;col<colsCount && _model.tileManager.getCell(row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;++col){
 					}
 					if(colFirst<col){
-						createStaticRect(colFirst,rowsCount-row-1,col,rowsCount-row-1);
+						createStaticRect(colFirst,rowsCount-row-1,col-1,rowsCount-row-1);
 					}
 				}
 			}
@@ -110,17 +107,18 @@ package models
 				_step();
 			}
 		}
-		private function _getPlayerIntendedForce(player:PlayerA):b2Vec2
+
+		private function _processPlayersIntentions():void
 		{
-			var direction:Point = player.getIntendedDirection();
-			
-			return new b2Vec2(direction.x*50,direction.y*50);
-		}
-		private function _processPlayersIntentions():void{
 			for(var index:Number=0;index<2;++index){
 				var body:b2Body = _playerBodies[index];
 				var position:b2Vec2=body.GetPosition();
-				var force:b2Vec2 = _getPlayerIntendedForce(this.getPlayer(index));
+				var player:PlayerA = this.getPlayer(index);
+				var direction:Point = player.getIntendedDirection();
+				
+				
+				
+				var force : b2Vec2 = new b2Vec2(direction.x*50,direction.y*50);
 				body.ApplyForce(force,position);
 			}
 		}
