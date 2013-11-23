@@ -55,6 +55,10 @@ package models
 		}
 		private function spawnPlayer(index:Number):b2Body{
 			var bodyDef:b2BodyDef = new b2BodyDef();
+			bodyDef.userData = new Object();
+			bodyDef.userData.type = "player";
+			bodyDef.userData.index = index;
+			bodyDef.userData.collisions = new Array(0,0,0,0);
 			var spawnPosition:Point = getSpawnPoint(index);
 			bodyDef.position.Set( spawnPosition.x,spawnPosition.y);
 			var body:b2Body = _world.CreateBody(bodyDef);
@@ -70,6 +74,12 @@ package models
 		private function createStaticRect(leftColumn:Number,bottomRow:Number,rightColumn:Number,topRow:Number):b2Body
 		{
 			var groundBodyDef:b2BodyDef = new b2BodyDef();
+			groundBodyDef.userData = new Object();
+			groundBodyDef.userData.type = "tilerect";
+			groundBodyDef.userData.leftColumn = leftColumn;
+			groundBodyDef.userData.rightColumn = rightColumn;
+			groundBodyDef.userData.bottomRow= bottomRow;
+			groundBodyDef.userData.topRow= topRow;
 			groundBodyDef.position.Set((leftColumn+rightColumn)/2+.5, (bottomRow+topRow)/2+.5);
 			var groundBody:b2Body = _world.CreateBody(groundBodyDef);
 			var groundShapeDef:b2PolygonDef = new b2PolygonDef();
@@ -83,6 +93,7 @@ package models
 			worldAABB.lowerBound.Set(-10, -10);
 			worldAABB.upperBound.Set(10+getColsCount(), 10+getRowsCount());
 			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), true);
+			_world.SetContactListener(new PhysicsEngine1ContactListener());
 			for(var index:Number=0;index<2;++index)
 				_playerBodies.push(spawnPlayer(index));
 			
@@ -118,9 +129,10 @@ package models
 		
 		private function getContactDirections(body:b2Body):Array
 		{
-			var contactDirections:Array = new Array(false,false,false,true);
-			var pos:b2Vec2 = body.GetPosition();
+			var contactDirections:Array = new Array(false,false,false,false);
+			//var pos:b2Vec2 = body.GetPosition();
 			for(var d:Number=0;d<4;++d){
+				/*
 				var dx:Number=DX[d];
 				var dy:Number=DY[d];
 				var probe_x:Number = pos.x+dx;
@@ -129,6 +141,8 @@ package models
 				var col:Number = Math.floor(probe_x);
 		
 				contactDirections[d] =  row<0 || col<0 || row>=getRowsCount() || col>=getColsCount() ||  _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;
+				*/
+				contactDirections[d] = body.GetUserData().collisions[d]>0;
 			}
 			return contactDirections;
 		}
