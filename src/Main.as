@@ -31,9 +31,10 @@ package
 			
 			Starling.handleLostContext = true;
 			stage.frameRate = 60;
+			
 			_starling                     = new Starling(Shell, stage, new Rectangle(0, 0, 960,600));
 			_starling.start();
-			
+			Starling.current.showStats = true;			
 			_context = new Context()
 				.install(MVCSBundle)
 				.configure(ContextConfig, new ContextView(this));
