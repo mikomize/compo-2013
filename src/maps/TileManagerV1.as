@@ -22,10 +22,12 @@ package maps
 				map[row] = new Array();
 				for(var column:int = 0 ; column < columns ; column++){
 					var tileId:int = layer.data[row*columns+column];
-					map[row][column] = new Tile(tiledSets[tileId]);
+					var tile:Tile = new Tile(tiledSets[tileId]);
+					tile.setAttrib(TileTypes.ROW_ATTR,row.toString());
+					tile.setAttrib(TileTypes.COLUMN_ATTR,column.toString());
+					map[row][column] = tile;
 				}	
 			}
-			trace(map);
 		}
 		public function getRowsCount():int{
 			return rows;

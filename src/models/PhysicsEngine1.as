@@ -33,6 +33,17 @@ package models
 			return _model.tileManager.getColumsCount();
 		}
 		private function getSpawnPoint(index:Number):Point{
+			var rowsCount:Number = getRowsCount();
+			var colsCount:Number = getColsCount();
+			for(var row:Number=0;row<rowsCount;++row){
+				for(var col:Number=0;col<colsCount;++col){
+					if( _model.tileManager.getCell(row,col).getAttrib('spawnPoint') == 'p' + (index+1)){
+						return new Point(col+.5,rowsCount-row-.5);
+					}
+				}
+			}
+			
+			
 			return index? new Point(1.5,10) : new Point(4.5,10);		
 		}
 		private function spawnPlayer(index:Number):b2Body{
@@ -73,6 +84,16 @@ package models
 			createStaticRect(0,-1,getColsCount()-1,-1);
 			createStaticRect(0, getRowsCount(),getColsCount()-1,getRowsCount());
 			
+			var rowsCount:Number = getRowsCount();
+			var colsCount:Number = getColsCount();
+			for(var row:Number=0;row<rowsCount;++row){
+				for(var col:Number=0;col<colsCount;++col){
+					var material:String = _model.tileManager.getCell(row,col).getAttrib('material');
+					if(material!="air"){
+						createStaticRect(col,rowsCount-row-1,col,rowsCount-row-1);
+					}
+				}
+			}
 			
 		}
 		
