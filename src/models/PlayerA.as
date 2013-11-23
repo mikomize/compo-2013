@@ -37,6 +37,7 @@ package models
 		{
 			addChild(getSkin());
 			//addChild(new Quad(60, 60, 0x000000));
+			super.spawn();
 		}
 		
 		public function getKeyMappings():Dictionary 
