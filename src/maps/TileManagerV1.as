@@ -23,11 +23,14 @@ package maps
 				for(var column:int = 0 ; column < columns ; column++){
 					var tileId:int = layer.data[row*columns+column];
 					var tile:Tile = new Tile(tiledSets[tileId]);
+					tile.setAttrib('tileId',tileId.toString());
 					tile.setAttrib(TileTypes.ROW_ATTR,row.toString());
 					tile.setAttrib(TileTypes.COLUMN_ATTR,column.toString());
 					map[row][column] = tile;
 				}	
 			}
+			
+			trace(serialize());
 		}
 		public function getRowsCount():int{
 			return rows;
@@ -41,8 +44,22 @@ package maps
 			return map[row][column];
 		}
 		
-		public function serialize():void{
-			
+		public function serialize():String{
+			var object:Object = new Object();
+			object.layers = new Array();
+			object.layers[0] = new Object();
+			object.layers[0].height = rows;
+			object.layers[0].width = columns;
+			object.layers[0].data = new Array();
+			for(var row:int = 0 ; row < rows ; row++){
+				for(var column:int = 0 ; column < columns ; column++){
+					object.layers[0].data[row*columns+column] = (map[row][column] as Tile).getAttrib('tileId');
+				}
+			}
+			object.tilesets = new Array();
+			object.tilesets = tiledSets;
+			return JSON.stringify(object);
+		
 		}
 		
 		public function deserialize():void{
