@@ -27,10 +27,10 @@ package models
 			return index?_model.playerB : _model.playerA;
 		}
 		private function getRowsCount():Number{
-			return 24;
+			return _model.tileManager.getRowsCount();
 		}
 		private function getColsCount():Number{
-			return 32;
+			return _model.tileManager.getColumsCount();
 		}
 		private function getSpawnPoint(index:Number):Point{
 			return index? new Point(1.5,10) : new Point(4.5,10);		
@@ -85,7 +85,9 @@ package models
 		}
 		private function _getPlayerIntendedForce(player:PlayerA):b2Vec2
 		{
-			return new b2Vec2(10,0);
+			var direction:Point = player.getIntendedDirection();
+			
+			return new b2Vec2(direction.x*10,direction.y*10);
 		}
 		private function _processPlayersIntentions():void{
 			for(var index:Number=0;index<2;++index){

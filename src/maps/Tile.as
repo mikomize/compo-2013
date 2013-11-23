@@ -2,17 +2,17 @@ package maps
 {
 	public class Tile
 	{
-		private var params:Object = {};
-		public function Tile(id:int):void
+		private var _params:Object = {};
+		public function Tile(params:Object):void
 		{
-			params['type'] = id;
+			_params = params;
 		}
 		public function getAttrib(key:String):String{
-			return params['key'];
+			return _params[key];
 		}
 		
 		public function setAttrib(key:String, value:String):void{
-			params['key'] = value;
+			_params[key] = value;
 		}
 	}
 }

@@ -27,6 +27,11 @@ package models
 		private var _tileManager:ITileManager;
 		
 		
+		public function get tileManager():ITileManager
+		{
+			return _tileManager;
+		}
+
 		public function get playerA():PlayerA 
 		{
 			return _playerA;
