@@ -12,6 +12,16 @@ package models
 		
 		private var _tile:Tile;
 		
+		override public function updateView():void
+		{
+			//TODO: matrix transform, camera, pan
+			//TODO: matrix transform, camera, pan
+			
+			x = _pos.x*30;
+			y = 600-(_model.tileManager.getRowsCount()-_pos.y)*30;
+		}
+		
+		
 		public function TileEntity(tile:Tile)
 		{
 			_tile = tile;
