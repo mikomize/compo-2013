@@ -130,9 +130,8 @@ package models
 		private function getContactDirections(body:b2Body):Array
 		{
 			var contactDirections:Array = new Array(false,false,false,false);
-			//var pos:b2Vec2 = body.GetPosition();
+			var pos:b2Vec2 = body.GetPosition();
 			for(var d:Number=0;d<4;++d){
-				/*
 				var dx:Number=DX[d];
 				var dy:Number=DY[d];
 				var probe_x:Number = pos.x+dx;
@@ -141,8 +140,7 @@ package models
 				var col:Number = Math.floor(probe_x);
 		
 				contactDirections[d] =  row<0 || col<0 || row>=getRowsCount() || col>=getColsCount() ||  _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;
-				*/
-				contactDirections[d] = body.GetUserData().collisions[d]>0;
+				//contactDirections[d] = body.GetUserData().collisions[d]>0;
 			}
 			return contactDirections;
 		}
@@ -156,7 +154,7 @@ package models
 				var direction:Point = player.getIntendedDirection();
 				var contactDirections:Array = getContactDirections(body);
 				if(index==0){
-				//	trace(contactDirections);
+					//trace("player " + index,contactDirections);
 				}
 				if(direction.x || direction.y){
 					for(var d:Number=0;d<4;++d){
@@ -174,12 +172,12 @@ package models
 								body.ApplyImpulse(v,position);
 							}else if(contactDirections[(d+1)%4] || contactDirections[(d+3)%4]){
 								//WALK
-					//			trace("WALK");
+								//trace("WALK");
 								v.Multiply(WALK_FORCE);
 								body.ApplyForce(v,position);
 							}else{
 								//FLY
-					//			trace("FLY");
+								//trace("FLY");
 								v.Multiply(FLY_FORCE);
 								body.ApplyForce(v,position);
 							}

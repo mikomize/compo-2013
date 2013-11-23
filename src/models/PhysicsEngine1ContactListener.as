@@ -39,7 +39,6 @@ package models
 		
 		public override function Persist(point:b2ContactPoint) : void
 		{
-			// handle persist point
 			
 		}
 		
