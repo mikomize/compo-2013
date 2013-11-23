@@ -5,7 +5,7 @@ package maps
 		private var _params:Object = {};
 		public function Tile(params:Object):void
 		{
-			_params = params;
+			_params = JSON.parse(JSON.stringify(params));
 		}
 		public function getAttrib(key:String):String{
 			return _params[key];
