@@ -7,7 +7,7 @@ package maps
 
 	public class LoadMaps
 	{
-		[Embed(source="../../maps/main.json",mimeType="application/octet-stream")]
+		[Embed(source="../../maps/level_1.json",mimeType="application/octet-stream")]
 		private var JSONMap:Class;
 		
 		private var _tileManager:ITileManager;
