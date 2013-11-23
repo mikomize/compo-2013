@@ -6,12 +6,12 @@ package models
 		{
 		}
 		
-		public function initialize(model:GameModel)
+		public function initialize(model:GameModel):void
 		{
 			
 		}
 		
-		public function update(deltaTimeSeconds:float)
+		public function update(deltaTimeSeconds:Number):void
 		{
 			
 		}
