@@ -24,8 +24,9 @@ package commands
 			if (_injector.hasMapping(GameModel)) {
 				_injector.unmap(GameModel);
 			}
-			var model:GameModel = _injector.instantiateUnmapped(GameModel).init();
+			var model:GameModel = _injector.instantiateUnmapped(GameModel);
 			_injector.map(GameModel).toValue(model);
+			model.init();
 		
 			model.initPhysics();
 

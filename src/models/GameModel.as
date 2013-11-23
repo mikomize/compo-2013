@@ -18,6 +18,20 @@ package models
 		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
+		
+		private var _playerA:Player;
+		private var _playerB:Player;
+		
+		public function get playerA():Player 
+		{
+			return _playerA;
+		}
+		
+		public function get playerB():Player 
+		{
+			return _playerB;
+		}
+		
 		public function GameModel()
 		{
 			super();
@@ -31,13 +45,14 @@ package models
 			}
 		}
 		
-		public function initPhysics():void{
+		public function initPhysics():void {
 			_physicsEngine = _injector.instantiateUnmapped(PhysicsEngine1);
 			_physicsEngine.initialize();
 		}
 		
 		public function addEntity(entity:Entity):void
 		{
+			_injector.injectInto(entity);
 			entity.spawn();
 			_entities.push(entity);
 			Starling.current.stage.addChild(entity);
@@ -45,6 +60,10 @@ package models
 		
 		public function init():GameModel
 		{
+			_playerA = new Player();
+			addEntity(_playerA);
+			_playerB = new Player();
+			addEntity(_playerB);
 			setParentJuggler(Starling.juggler);
 			start();
 			return this;
