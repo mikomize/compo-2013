@@ -3,6 +3,9 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	
+	import bootstrap.ContextConfig;
+	import bootstrap.Shell;
+	
 	import robotlegs.bender.bundles.mvcs.MVCSBundle;
 	import robotlegs.bender.extensions.contextView.ContextView;
 	import robotlegs.bender.framework.api.IContext;
@@ -28,16 +31,11 @@ package
 			
 			_context = new Context()
 				.install(MVCSBundle)
-				.configure(new ContextView(this));
+				.configure(ContextConfig, new ContextView(this));
 			_context.initialize();
 			
 			
 			
-			
-		}
-		
-		private function update():void
-		{
 			
 		}
 	}
