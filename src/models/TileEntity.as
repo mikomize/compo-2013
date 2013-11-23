@@ -17,8 +17,8 @@ package models
 			//TODO: matrix transform, camera, pan
 			//TODO: matrix transform, camera, pan
 			
-			x = _pos.x*30;
-			y = 600-(_model.tileManager.getRowsCount()-_pos.y)*30;
+			x = _pos.x*GameModel.TILE_WIDTH;
+			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-(_model.tileManager.getRowsCount()-_pos.y)*GameModel.TILE_HEIGHT;
 		}
 		
 		

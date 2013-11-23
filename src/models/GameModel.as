@@ -59,6 +59,7 @@ package models
 		}
 		
 		override public function advanceTime(time:Number):void {
+			_camera.scrollBot();
 			super.advanceTime(time);
 			_physicsEngine.update(time);
 			for each( var entity:Entity in _entities) {
@@ -103,6 +104,7 @@ package models
 			
 			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, _tileManager.getRowsCount() * TILE_HEIGHT));
 			_camera.attach();
+			
 			
 			_playerA = new PlayerA();
 			addEntity(_playerA);

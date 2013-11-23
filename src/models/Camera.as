@@ -16,16 +16,16 @@ package models
 		public function Camera(viewport:Rectangle, mapsize:Rectangle)
 		{
 			_viewport = new Sprite();
-			//_viewport.width = viewport.width;
-			//_viewport.height = viewport.height;
+			_viewport.width = viewport.width;
+			_viewport.height = viewport.height;
 			
 			_viewport.clipRect = viewport;
 			
-			//_viewport.addChild(new Quad(viewport.width, viewport.height));
+			_viewport.addChild(new Quad(viewport.width, viewport.height));
 			
 			_canvas = new Sprite();
-			//_canvas.width = mapsize.width;
-			//_canvas.height = mapsize.height;
+			_canvas.width = mapsize.width;
+			_canvas.height = mapsize.height;
 			
 			//_canvas.addChild(new Quad(mapsize.width, mapsize.height));
 			
@@ -47,7 +47,7 @@ package models
 		
 		public function set y(val:int):void 
 		{
-			_canvas.y = Math.min(Math.max(0, val), _canvas.height - _viewport.height);
+			_canvas.y = Math.max(Math.min(0, val), -(_canvas.height - _viewport.height) );
 			trace(_canvas.y);
 		}
 		
@@ -63,7 +63,7 @@ package models
 		
 		public function scrollBot():void 
 		{
-			y = _canvas.height;
+			y = -(_canvas.height - _viewport.height);
 		}
 	}
 }

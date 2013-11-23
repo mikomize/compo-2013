@@ -57,7 +57,11 @@ package maps
 				}
 			}
 			object.tilesets = new Array();
-			object.tilesets = tiledSets;
+			for(var index:Object in tiledSets){
+				var tiledDeff:Object = tiledSets[index];
+				tiledDeff.firstgid = index;
+				object.tilesets.push(tiledDeff);
+			}
 			return JSON.stringify(object);
 		
 		}
