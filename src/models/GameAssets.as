@@ -5,7 +5,7 @@ package models
 	public class GameAssets extends Assets
 	{
 		
-		[Embed(source="../../resources/gfx/general/general.jpg")]
+		[Embed(source="../../resources/gfx/general/general.png")]
 		public static const generalAtlas:Class;
 		
 		[Embed(source="../../resources/gfx/general/general.xml", mimeType="application/octet-stream")]

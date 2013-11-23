@@ -3,6 +3,7 @@ package models
 	import flash.utils.ByteArray;
 	
 	import maps.ITileManager;
+	import maps.TileManagerFactory;
 	import maps.TileManagerV1;
 
 	public class LevelManger
@@ -34,7 +35,9 @@ package models
 		{
 			var txt:ByteArray = new JSONMap() as ByteArray;
 			var jsonArray:Object = JSON.parse(txt.toString());
-			return  new TileManagerV1(jsonArray);
+			var tiledManager:ITileManager = TileManagerFactory.getTiledManager(jsonArray.version);
+			
+			return  tiledManager.deserialize(jsonArray);
 		}
 	}
 }

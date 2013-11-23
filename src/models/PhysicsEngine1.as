@@ -1,5 +1,6 @@
 package models
 {
+	import Box2D.Collision.Shapes.b2CircleDef;
 	import Box2D.Collision.Shapes.b2PolygonDef;
 	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
@@ -58,9 +59,9 @@ package models
 			bodyDef.position.Set( spawnPosition.x,spawnPosition.y);
 			var body:b2Body = _world.CreateBody(bodyDef);
 		
-			var shapeDef:b2PolygonDef = new b2PolygonDef();
-			shapeDef.SetAsBox(1.0, 1.0);
-			shapeDef.density = 1.0;
+			var shapeDef:b2CircleDef = new b2CircleDef();
+			shapeDef.radius = 1.0;
+			shapeDef.density = 4/Math.PI;//nie pytaj
 			shapeDef.friction = 0.3;
 			body.CreateShape(shapeDef);
 			body.SetMassFromShapes();
@@ -180,7 +181,8 @@ package models
 			_unprocessedTime -= _FRAME_DURATION;
 			for(var index:Number=0;index<2;++index){
 				var position:b2Vec2=_playerBodies[index].GetPosition();
-				
+				//trace(_playerBodies[index].GetAngle());
+				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
 				getPlayer(index).setPosition(new Point(position.x,position.y));
 			}
 		}

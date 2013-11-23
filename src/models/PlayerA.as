@@ -22,8 +22,8 @@ package models
 			//TODO: matrix transform, camera, pan
 			//TODO: matrix transform, camera, pan
 			
-			x = _pos.x*GameModel.TILE_WIDTH-GameModel.TILE_WIDTH;
-			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT-GameModel.TILE_HEIGHT;
+			x = _pos.x*GameModel.TILE_WIDTH;
+			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
 		}
 		
 		protected function getSkin():Image
@@ -36,7 +36,7 @@ package models
 		override public function spawn():void
 		{
 			addChild(getSkin());
-			addChild(new Quad(60, 60, 0x000000));
+			//addChild(new Quad(60, 60, 0x000000));
 		}
 		
 		public function getKeyMappings():Dictionary 
