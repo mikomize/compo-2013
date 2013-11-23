@@ -16,12 +16,9 @@ package models
 		public function Camera(viewport:Rectangle, mapsize:Rectangle)
 		{
 			_viewport = new Sprite();
-			_viewport.width = viewport.width;
-			_viewport.height = viewport.height;
 			
-			_viewport.clipRect = viewport;
 			
-			_viewport.addChild(new Quad(viewport.width, viewport.height));
+			//_viewport.addChild(new Quad(viewport.width, viewport.height));
 			
 			_canvas = new Sprite();
 			_canvas.width = mapsize.width;
@@ -30,6 +27,10 @@ package models
 			//_canvas.addChild(new Quad(mapsize.width, mapsize.height));
 			
 			_viewport.addChild(_canvas);
+			_viewport.width = viewport.width;
+			_viewport.height = viewport.height;
+			
+			_viewport.clipRect = viewport;
 			trace('aaaa');
 			trace([_viewport.width, _viewport.height]);
 			
