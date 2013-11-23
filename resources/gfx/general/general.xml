@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:4996afbf0347e7b29708b2ecd0e53591$ -->
+<!-- $TexturePacker:SmartUpdate:a8291ceb91ae97e4a9ea75ff3642c86f$ -->
 <TextureAtlas imagePath="general.png">
-    <SubTexture name="k1" x="2" y="64" width="60" height="60"/>
+    <SubTexture name="k1" x="64" y="2" width="60" height="60"/>
     <SubTexture name="k2" x="2" y="2" width="60" height="60"/>
+    <SubTexture name="metal1" x="42" y="144" width="38" height="38"/>
+    <SubTexture name="metalMinus" x="2" y="184" width="38" height="38"/>
+    <SubTexture name="metalPlus" x="2" y="144" width="38" height="38"/>
+    <SubTexture name="wood1" x="82" y="104" width="38" height="38"/>
+    <SubTexture name="wood2" x="42" y="104" width="38" height="38"/>
+    <SubTexture name="wood3" x="2" y="104" width="38" height="38"/>
+    <SubTexture name="wood4" x="82" y="64" width="38" height="38"/>
+    <SubTexture name="wood5" x="42" y="64" width="38" height="38"/>
+    <SubTexture name="wood7" x="2" y="64" width="38" height="38"/>
 </TextureAtlas>

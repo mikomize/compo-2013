@@ -102,22 +102,22 @@ package models
 			initTailModel();
 			initPhysics();
 			
-			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, _tileManager.getRowsCount() * TILE_HEIGHT));
+			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, (_tileManager.getRowsCount()) * TILE_HEIGHT));
 			_camera.attach();
 			
-			
-			_playerA = new PlayerA();
-			addEntity(_playerA);
-			_playerB = new PlayerB();
-			addEntity(_playerB);
-			
-			for (var i:uint =0;i<_tileManager.getColumsCount();i++) {
-				for (var j:uint =0;j<_tileManager.getRowsCount();j++) {
+			for (var i:int =0;i<_tileManager.getColumsCount();i++) {
+				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {
+					trace([j,i]);
 					var tile:Tile = _tileManager.getCell(j, i);
 					var tileEntity:TileEntity = new TileEntity(tile);
 					addEntity(tileEntity);
 				}
 			}
+			
+			_playerA = new PlayerA();
+			addEntity(_playerA);
+			_playerB = new PlayerB();
+			addEntity(_playerB);
 			
 			
 			return this;

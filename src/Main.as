@@ -20,7 +20,6 @@ package
 			stage.frameRate = 60;
 			
 			Starling.handleLostContext = true;
-			stage.frameRate = 60;
 			
 			_starling                     = new Starling(Shell, stage, new Rectangle(0, 0, 960,600));
 			_starling.start();

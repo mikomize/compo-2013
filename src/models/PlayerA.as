@@ -5,7 +5,6 @@ package models
 	import flash.utils.Dictionary;
 	
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.textures.TextureAtlas;
 
 	public class PlayerA extends Entity
@@ -19,9 +18,6 @@ package models
 		}
 		override public function updateView():void
 		{
-			//TODO: matrix transform, camera, pan
-			//TODO: matrix transform, camera, pan
-			
 			x = _pos.x*GameModel.TILE_WIDTH;
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
 		}
@@ -36,7 +32,6 @@ package models
 		override public function spawn():void
 		{
 			addChild(getSkin());
-			//addChild(new Quad(60, 60, 0x000000));
 			super.spawn();
 		}
 		
