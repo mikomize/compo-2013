@@ -8,29 +8,12 @@ package models
 
 	public class PlayerA extends Entity
 	{
-		private var _pos:Point = new Point(0,0);
 		
 		public function PlayerA()
 		{
 			super();
 		}
 		
-		public function setPosition(pt:Point):void
-		{
-			_pos = pt;
-		}
-		
-		public function getPosition():Point
-		{
-			return _pos;
-		}
-		
-		override public function updateView():void
-		{
-			//TODO: matrix transform, camera, pan
-			x = _pos.x*30;
-			y = 100-_pos.y*30;
-		}
 		
 		override public function spawn():void
 		{

@@ -14,7 +14,7 @@ package models
 		public function GameAssets()
 		{
 			super();
-			//addAtlasDefinition(GameAssetsEnum.atlas, atlas, atlasXml);
+			addAtlasDefinition(GameAssetsEnum.general, generalAtlas, generalAtlasXml);
 		}
 	}
 }
