@@ -3,12 +3,21 @@ package models
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+	
+	import starling.display.Image;
+	import starling.textures.TextureAtlas;
 
 	public class PlayerB extends PlayerA
 	{
 		public function PlayerB()
 		{
 			super();
+		}
+		
+		override protected function getSkin():Image
+		{
+			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
+			return new Image(atlas.getTexture('k2')); 
 		}
 		
 		override public function getKeyMappings():Dictionary 

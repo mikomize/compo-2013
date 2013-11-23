@@ -4,8 +4,9 @@ package bootstrap
 	
 	import commands.StartGameCommand;
 	
+	import models.GameAssets;
+	
 	import org.robotlegs.utilities.statemachine.FSMInjector;
-	import org.robotlegs.utilities.statemachine.StateEvent;
 	import org.robotlegs.utilities.statemachine.StateMachine;
 	
 	import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
@@ -32,7 +33,7 @@ package bootstrap
 		public function configure():void
 		{
 			_commandMap.map(FSM.STARTED_EVENT).toCommand(StartGameCommand);
-			
+			_injector.map(GameAssets).asSingleton();
 			setUpFSM();
 		}
 		

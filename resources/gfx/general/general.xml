@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:3e13ed8dfe8659502027a896fe3010ea$ -->
-<TextureAtlas imagePath="general.png">
-    <SubTexture name="metal-bot" x="32" y="50" width="30" height="6" frameX="0" frameY="-24" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="metal-left" x="50" y="18" width="6" height="30" frameX="0" frameY="0" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="metal-mid" x="2" y="32" width="20" height="20" frameX="-5" frameY="-5" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="metal-right" x="42" y="18" width="6" height="30" frameX="-24" frameY="0" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="metal-top" x="24" y="10" width="30" height="6" frameX="0" frameY="0" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="wood-bot" x="24" y="2" width="30" height="6" frameX="0" frameY="-24" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="wood-left" x="24" y="32" width="6" height="30" frameX="0" frameY="0" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="wood-mid" x="2" y="2" width="20" height="20" frameX="-5" frameY="-5" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="wood-right" x="34" y="18" width="6" height="30" frameX="-24" frameY="0" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="wood-top" x="2" y="24" width="30" height="6" frameX="0" frameY="0" frameWidth="30" frameHeight="30"/>
+<!-- $TexturePacker:SmartUpdate:b809914af98710660323022165d394b6$ -->
+<TextureAtlas imagePath="general.jpg">
+    <SubTexture name="k1" x="2" y="64" width="60" height="60"/>
+    <SubTexture name="k2" x="2" y="2" width="60" height="60"/>
 </TextureAtlas>

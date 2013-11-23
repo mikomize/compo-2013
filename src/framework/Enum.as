@@ -112,7 +112,7 @@ package framework
 		private static var _enumDb      :Object = {};    // typename -> EnumConstants
 	}
 }
-import net.themonter.framework.Enum;
+import framework.Enum;
 
 // private support class
 class EnumConstants

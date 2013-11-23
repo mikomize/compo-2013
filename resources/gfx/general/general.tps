@@ -149,6 +149,7 @@
         <key>fileList</key>
         <array>
             <filename>tiles</filename>
+            <filename>players</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

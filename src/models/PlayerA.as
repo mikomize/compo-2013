@@ -4,10 +4,14 @@ package models
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
+	import starling.display.Image;
 	import starling.display.Quad;
+	import starling.textures.TextureAtlas;
 
 	public class PlayerA extends Entity
 	{
+		[Inject]
+		public var _gameAssets:GameAssets;
 		
 		public function PlayerA()
 		{
@@ -22,10 +26,17 @@ package models
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT-GameModel.TILE_HEIGHT;
 		}
 		
+		protected function getSkin():Image
+		{
+			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
+			return new Image(atlas.getTexture('k1')); 
+		}
+		
 		
 		override public function spawn():void
 		{
-			addChild(new Quad(60, 60, 0x00000));
+			addChild(getSkin());
+			addChild(new Quad(60, 60, 0x000000));
 		}
 		
 		public function getKeyMappings():Dictionary 
