@@ -28,6 +28,11 @@ package models
 		private var _playerA:Player;
 		private var _playerB:Player;
 		
+		public function get tileManager():ITileManager
+		{
+			return _tileManager;
+		}
+
 		public function get playerA():Player 
 		{
 			return _playerA;

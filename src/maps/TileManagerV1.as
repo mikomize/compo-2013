@@ -7,15 +7,22 @@ package maps
 		
 		private var map:Array = new Array();
 		
+		private var tiledSets:Array = new Array();
+		
 		public function TileManagerV1(json:Object):void
 		{
 			var layer:Object  = json.layers[0];
 			rows = layer.height;
 			columns = layer.width;
+			
+			for each(var tileDesc:Object in json.tilesets){
+				tiledSets[tileDesc.firstgid] = tileDesc.properties;
+			}
 			for(var row:int = 0 ; row < rows ; row++){
 				map[row] = new Array();
 				for(var column:int = 0 ; column < columns ; column++){
-					map[row][column] = new Tile(layer.data[row*columns+column]);
+					var tileId:int = layer.data[row*columns+column];
+					map[row][column] = new Tile(tiledSets[tileId]);
 				}	
 			}
 		}
