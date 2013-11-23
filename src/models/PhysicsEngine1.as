@@ -83,7 +83,7 @@ package models
 				_step();
 			}
 		}
-		private function _getPlayerIntendedForce(player:Player):b2Vec2
+		private function _getPlayerIntendedForce(player:PlayerA):b2Vec2
 		{
 			return new b2Vec2(10,0);
 		}
