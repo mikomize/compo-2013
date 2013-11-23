@@ -1,11 +1,13 @@
 package models
 {
+	
+	import flash.geom.Rectangle;
+	
 	import framework.Animated;
 	
 	import maps.ITileManager;
 	import maps.LoadMaps;
 	import maps.Tile;
-	import maps.TileTypes;
 	
 	import robotlegs.bender.framework.api.IInjector;
 	
@@ -14,6 +16,10 @@ package models
 	
 	public class GameModel extends Animated
 	{
+		
+		public static const TILE_WIDTH:uint = 30;
+		public static const TILE_HEIGHT:uint = 30;
+		
 		
 		[Inject]
 		public var _injector:IInjector;
@@ -24,6 +30,8 @@ package models
 		private var _playerA:PlayerA;
 		private var _playerB:PlayerB;
 		private var _tileManager:ITileManager;
+		
+		private var _camera:Camera;
 		
 		
 		public function get tileManager():ITileManager
@@ -66,6 +74,34 @@ package models
 		
 		public function initTailModel():void {
 			_tileManager = new LoadMaps().tileManager;
+		}
+		
+		public function addEntity(entity:Entity):void
+		{
+			_injector.injectInto(entity);
+			entity.spawn();
+			_entities.push(entity);
+			_camera.add(entity);
+		}
+		
+		
+		public function init():GameModel
+		{
+			
+			bindKeys();
+			
+			setParentJuggler(Starling.juggler);
+			start();
+			initTailModel();
+			initPhysics();
+			
+			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, _tileManager.getRowsCount() * TILE_HEIGHT));
+			_camera.attach();
+			
+			_playerA = new PlayerA();
+			addEntity(_playerA);
+			_playerB = new PlayerB();
+			addEntity(_playerB);
 			
 			for (var i:uint =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:uint =0;j<_tileManager.getRowsCount();j++) {
@@ -74,28 +110,6 @@ package models
 					addEntity(tileEntity);
 				}
 			}
-		}
-		
-		public function addEntity(entity:Entity):void
-		{
-			_injector.injectInto(entity);
-			entity.spawn();
-			_entities.push(entity);
-			Starling.current.stage.addChild(entity);
-		}
-		
-		
-		public function init():GameModel
-		{
-			_playerA = new PlayerA();
-			addEntity(_playerA);
-			_playerB = new PlayerB();
-			bindKeys();
-			addEntity(_playerB);
-			setParentJuggler(Starling.juggler);
-			start();
-			initTailModel();
-			initPhysics();
 			return this;
 		}
 		
