@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:b809914af98710660323022165d394b6$ -->
-<TextureAtlas imagePath="general.jpg">
+<!-- $TexturePacker:SmartUpdate:4996afbf0347e7b29708b2ecd0e53591$ -->
+<TextureAtlas imagePath="general.png">
     <SubTexture name="k1" x="2" y="64" width="60" height="60"/>
     <SubTexture name="k2" x="2" y="2" width="60" height="60"/>
 </TextureAtlas>

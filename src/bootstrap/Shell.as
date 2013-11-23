@@ -1,25 +1,31 @@
 package bootstrap
 {
-	import Box2D.Collision.b2AABB;
-	import Box2D.Collision.Shapes.b2PolygonDef;
-	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2Body;
-	import Box2D.Dynamics.b2BodyDef;
-	import Box2D.Dynamics.b2World;
+	import flash.display.Sprite;
+	import flash.events.IEventDispatcher;
 	
-	import starling.core.Starling;
-	import starling.display.DisplayObject;
-	import starling.display.Quad;
+	import org.robotlegs.utilities.statemachine.StateEvent;
+	
+	import robotlegs.bender.bundles.mvcs.MVCSBundle;
+	import robotlegs.bender.extensions.contextView.ContextView;
+	import robotlegs.bender.framework.api.IContext;
+	import robotlegs.bender.framework.impl.Context;
+	
 	import starling.display.Sprite;
-	import starling.events.EnterFrameEvent;
-	import starling.events.Event;
 	
-	public class Shell extends Sprite
+	
+	public class Shell extends starling.display.Sprite
 	{
+		private var _context:IContext;
+		
 		public function Shell()
 		{
 			super();
+			_context = new Context()
+				.install(MVCSBundle)
+				.configure(ContextConfig, new ContextView(new flash.display.Sprite()));
+			_context.initialize();
 			
+			(_context.injector.getInstance(IEventDispatcher) as IEventDispatcher).dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START));
 
 		}
 	}

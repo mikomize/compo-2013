@@ -2,19 +2,9 @@ package
 {
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.IEventDispatcher;
 	import flash.geom.Rectangle;
 	
-	import bootstrap.ContextConfig;
-	import bootstrap.FSM;
 	import bootstrap.Shell;
-	
-	import org.robotlegs.utilities.statemachine.StateEvent;
-	
-	import robotlegs.bender.bundles.mvcs.MVCSBundle;
-	import robotlegs.bender.extensions.contextView.ContextView;
-	import robotlegs.bender.framework.api.IContext;
-	import robotlegs.bender.framework.impl.Context;
 	
 	import starling.core.Starling;
 	
@@ -22,7 +12,7 @@ package
 	{
 		
 		private var _starling:Starling;
-		private var _context:IContext;
+		
 		public function Main()
 		{
 			stage.align = StageAlign.TOP_LEFT;
@@ -35,12 +25,7 @@ package
 			_starling                     = new Starling(Shell, stage, new Rectangle(0, 0, 960,600));
 			_starling.start();
 			Starling.current.showStats = true;			
-			_context = new Context()
-				.install(MVCSBundle)
-				.configure(ContextConfig, new ContextView(this));
-			_context.initialize();
-			
-			(_context.injector.getInstance(IEventDispatcher) as IEventDispatcher).dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START));
+
 
 			
 			
