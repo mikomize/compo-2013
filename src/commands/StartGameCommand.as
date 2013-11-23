@@ -4,6 +4,8 @@ package commands
 	
 	import robotlegs.bender.bundles.mvcs.Command;
 	import robotlegs.bender.framework.api.IInjector;
+	
+	import starling.core.Starling;
 
 	
 	
@@ -27,6 +29,8 @@ package commands
 			var model:GameModel = _injector.instantiateUnmapped(GameModel);
 			_injector.map(GameModel).toValue(model);
 			model.init();
+			
+			trace([Starling.current.stag
 			
 		}
 	}
