@@ -6,7 +6,9 @@ package models
 	
 	import maps.ITileManager;
 	import maps.LoadMaps;
+	import maps.Tile;
 	import maps.TileManagerV1;
+	import maps.TileTypes;
 	
 	import robotlegs.bender.framework.api.IInjector;
 	
@@ -66,7 +68,17 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LoadMaps().tileManager;;
+			_tileManager = new LoadMaps().tileManager;
+			
+			for (var i:uint =0;i<_tileManager.getColumsCount();i++) {
+				for (var j:uint =0;j<_tileManager.getRowsCount();j++) {
+					var tile:Tile = _tileManager.getCell(j, i);
+					trace([j,i]);
+					trace([int(tile.getAttrib(TileTypes.COLUMN_ATTR)), int(tile.getAttrib(TileTypes.ROW_ATTR))]);
+					var tileEntity:TileEntity = new TileEntity(tile);
+					addEntity(tileEntity);
+				}
+			}
 		}
 		
 		public function addEntity(entity:Entity):void
