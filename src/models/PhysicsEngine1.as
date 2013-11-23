@@ -92,9 +92,11 @@ package models
 			var colsCount:Number = getColsCount();
 			for(var row:Number=0;row<rowsCount;++row){
 				for(var col:Number=0;col<colsCount;++col){
-					var material:String = _model.tileManager.getCell(row,col).getAttrib(TileTypes.MATERIAL_ATTR);
-					if(material!=TileTypes.AIR){
-						createStaticRect(col,rowsCount-row-1,col,rowsCount-row-1);
+					var colFirst:Number=col;
+					for(;col<colsCount && _model.tileManager.getCell(row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;++col){
+					}
+					if(colFirst<col){
+						createStaticRect(colFirst,rowsCount-row-1,col,rowsCount-row-1);
 					}
 				}
 			}
@@ -112,7 +114,7 @@ package models
 		{
 			var direction:Point = player.getIntendedDirection();
 			
-			return new b2Vec2(direction.x*10,direction.y*10);
+			return new b2Vec2(direction.x*50,direction.y*50);
 		}
 		private function _processPlayersIntentions():void{
 			for(var index:Number=0;index<2;++index){
