@@ -1,9 +1,5 @@
 package models
 {
-	import Box2D.Collision.b2AABB;
-	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2World;
-	
 	import framework.Animated;
 	
 	import robotlegs.bender.framework.api.IInjector;

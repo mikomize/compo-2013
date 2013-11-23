@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:d33a349321133b3137dd78e0ac2a7aa3$ -->
+<TextureAtlas imagePath="general.png">
+    <SubTexture name="metal-bot" x="2" y="98" width="30" height="30"/>
+    <SubTexture name="metal-left" x="66" y="66" width="30" height="30"/>
+    <SubTexture name="metal-middle" x="34" y="66" width="30" height="30"/>
+    <SubTexture name="metal-right" x="2" y="66" width="30" height="30"/>
+    <SubTexture name="metal-top" x="66" y="34" width="30" height="30"/>
+    <SubTexture name="wood-bot" x="34" y="34" width="30" height="30"/>
+    <SubTexture name="wood-left" x="2" y="34" width="30" height="30"/>
+    <SubTexture name="wood-mid" x="66" y="2" width="30" height="30"/>
+    <SubTexture name="wood-right" x="34" y="2" width="30" height="30"/>
+    <SubTexture name="wood-top" x="2" y="2" width="30" height="30"/>
+</TextureAtlas>
