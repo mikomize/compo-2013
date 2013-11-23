@@ -28,9 +28,6 @@ package commands
 			_injector.map(GameModel).toValue(model);
 			model.init();
 			
-			model.initPhysics();
-
-			
 		}
 	}
 }
