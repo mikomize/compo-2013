@@ -9,7 +9,7 @@ package maps
 		
 		function getCell(row:int, column:int):Tile;
 		
-		function serialize():void;
+		function serialize():String;
 		
 		function deserialize():void;
 	}

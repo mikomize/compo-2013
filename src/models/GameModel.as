@@ -6,7 +6,6 @@ package models
 	import framework.Animated;
 	
 	import maps.ITileManager;
-	import maps.LoadMaps;
 	import maps.Tile;
 	
 	import robotlegs.bender.framework.api.IInjector;
@@ -79,7 +78,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LoadMaps().tileManager;
+			_tileManager = new LevelManger().init(1);
 		}
 		
 		public function addEntity(entity:Entity):void
