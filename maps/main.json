@@ -27,7 +27,8 @@
          "name":"Wood",
          "properties":
             {
-
+             "material":"wood",
+             "respawnPoint":"no"
             },
          "spacing":0,
          "tileheight":30,
@@ -50,7 +51,8 @@
          "name":"Air",
          "properties":
             {
-
+             "material":"air",
+             "respawnPoint":"no"
             },
          "spacing":0,
          "tileheight":30,
@@ -73,7 +75,8 @@
          "name":"SpawnPoint",
          "properties":
             {
-
+             "material":"air",
+             "respawnPoint":"yes"
             },
          "spacing":0,
          "tileheight":30,

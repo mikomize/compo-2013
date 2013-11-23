@@ -25,6 +25,7 @@ package maps
 					map[row][column] = new Tile(tiledSets[tileId]);
 				}	
 			}
+			trace(map);
 		}
 		public function getRowsCount():int{
 			return rows;
