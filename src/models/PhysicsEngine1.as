@@ -54,7 +54,7 @@ package models
 			var worldAABB:b2AABB = new b2AABB();
 			worldAABB.lowerBound.Set(0, 0);
 			worldAABB.upperBound.Set(getColsCount(), getRowsCount());
-			_world = new b2World(worldAABB, new b2Vec2 (0.0, 9.81), true);
+			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), true);
 			for(var index:Number=0;index<2;++index)
 				_playerBodies.push(spawnPlayer(index));
 			
@@ -75,6 +75,7 @@ package models
 				var position:b2Vec2=_playerBodies[index].GetPosition();
 				
 				getPlayer(index).setPosition(new Point(position.x,position.y));
+				trace( index,position.x,position.y);
 			}
 		}
 	}
