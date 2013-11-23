@@ -23,7 +23,7 @@ package models
 		private var _physicsEngine:PhysicsEngineInterface;
 		
 		private var _playerA:PlayerA;
-		private var _playerB:PlayerA;
+		private var _playerB:PlayerB;
 		private var _tileManager:ITileManager;
 		
 		
