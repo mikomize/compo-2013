@@ -14,6 +14,10 @@ package models
 			super();
 		}
 		
+		override public function updateView():void
+		{
+
+		}
 		
 		override public function spawn():void
 		{

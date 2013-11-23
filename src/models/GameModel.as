@@ -1,13 +1,10 @@
 package models
 {
-	import flash.ui.Keyboard;
-	
 	import framework.Animated;
 	
 	import maps.ITileManager;
 	import maps.LoadMaps;
 	import maps.Tile;
-	import maps.TileManagerV1;
 	import maps.TileTypes;
 	
 	import robotlegs.bender.framework.api.IInjector;
@@ -73,8 +70,6 @@ package models
 			for (var i:uint =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:uint =0;j<_tileManager.getRowsCount();j++) {
 					var tile:Tile = _tileManager.getCell(j, i);
-					trace([j,i]);
-					trace([int(tile.getAttrib(TileTypes.COLUMN_ATTR)), int(tile.getAttrib(TileTypes.ROW_ATTR))]);
 					var tileEntity:TileEntity = new TileEntity(tile);
 					addEntity(tileEntity);
 				}

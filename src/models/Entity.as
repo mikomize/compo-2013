@@ -24,8 +24,9 @@ package models
 		public function updateView():void
 		{
 			//TODO: matrix transform, camera, pan
-			x = _pos.x*30;
-			y = 100-_pos.y*30;
+			//TODO: matrix transform, camera, pan
+			x = _pos.x*30-30;
+			y = 600-_pos.y*30-30;
 		}
 		
 		public function setPosition(pt:Point):void
