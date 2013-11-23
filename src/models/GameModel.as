@@ -80,7 +80,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(1);
+			_tileManager = new LevelManger().init(0);
 		}
 		
 		public function addEntity(entity:Entity):void

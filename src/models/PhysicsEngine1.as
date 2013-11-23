@@ -195,7 +195,8 @@ package models
 			_unprocessedTime -= _FRAME_DURATION;
 			for(var index:Number=0;index<2;++index){
 				var position:b2Vec2=_playerBodies[index].GetPosition();
-				
+				//trace(_playerBodies[index].GetAngle());
+				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
 				getPlayer(index).setPosition(new Point(position.x,position.y));
 			}
 		}

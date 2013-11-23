@@ -38,10 +38,6 @@ package models
 		
 		public function attach():void
 		{
-			_viewport.addEventListener(Event.ADDED_TO_STAGE, function ():void {
-				trace('added');
-				scrollBot();
-			})
 			Starling.current.stage.addChild(_viewport);
 		}
 		

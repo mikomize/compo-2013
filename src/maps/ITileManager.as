@@ -11,6 +11,6 @@ package maps
 		
 		function serialize():String;
 		
-		function deserialize():void;
+		function deserialize(json:Object):ITileManager;
 	}
 }
