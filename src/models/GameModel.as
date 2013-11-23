@@ -13,7 +13,7 @@ package models
 		
 		private var _world:b2World;
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
-		
+		private var _physicsEngine:PhysicsEngineInterface;
 		public function GameModel()
 		{
 			super();
@@ -30,6 +30,11 @@ package models
 			for each( var entity:Entity in _entities) {
 				entity.updateView();
 			}
+		}
+		
+		public function initPhysics():void{
+			_physicsEngine = new PhysicsEngine1();
+			_physicsEngine.initialize(this);
 		}
 		
 		public function addEntity(entity:Entity):void

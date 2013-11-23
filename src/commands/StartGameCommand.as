@@ -37,9 +37,7 @@ package commands
 			_injector.injectInto(box2);
 			model.addEntity(box2);
 
-			var physicsEngine:PhysicsEngineInterface = new PhysicsEngine1();
-			physicsEngine.initialize(model);
-			
+			model.initPhysics();
 			
 		}
 	}
