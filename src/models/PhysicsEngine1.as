@@ -27,10 +27,10 @@ package models
 			return index?_model.playerB : _model.playerA;
 		}
 		private function getRowsCount():Number{
-			return 24;
+			return _model.tileManager.getRowsCount();
 		}
 		private function getColsCount():Number{
-			return 32;
+			return _model.tileManager.getColumsCount();
 		}
 		private function getSpawnPoint(index:Number):Point{
 			return index? new Point(1.5,10) : new Point(4.5,10);		
