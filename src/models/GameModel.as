@@ -65,6 +65,12 @@ package models
 			for each( var entity:Entity in _entities) {
 				entity.updateView();
 			}
+			
+			var tmp:int = _playerA.y;
+			if (_playerB.y > tmp) {
+				tmp = _playerB.y;
+			}
+			_camera.stick(tmp);
 		}
 		
 		public function initPhysics():void {
@@ -81,6 +87,7 @@ package models
 			_injector.injectInto(entity);
 			entity.spawn();
 			_entities.push(entity);
+			trace(entity.y);
 			_camera.add(entity);
 		}
 		
