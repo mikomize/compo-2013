@@ -5,6 +5,7 @@ package bootstrap
 	import commands.StartGameCommand;
 	
 	import org.robotlegs.utilities.statemachine.FSMInjector;
+	import org.robotlegs.utilities.statemachine.StateEvent;
 	import org.robotlegs.utilities.statemachine.StateMachine;
 	
 	import robotlegs.bender.extensions.eventCommandMap.api.IEventCommandMap;
@@ -43,6 +44,7 @@ package bootstrap
 			fsmInjector.inject(stateMachine);
 			
 			_injector.map(StateMachine).toValue(stateMachine);
+			
 		}
 	}
 }

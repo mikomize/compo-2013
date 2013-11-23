@@ -26,6 +26,7 @@ package models
 		
 		override public function advanceTime(time:Number):void {
 			super.advanceTime(time);
+			_world.Step(time, 10);
 			for each( var entity:Entity in _entities) {
 				entity.updateView();
 			}
@@ -38,12 +39,15 @@ package models
 			Starling.current.stage.addChild(entity.view);
 		}
 		
-		public function init():void
+		public function init():GameModel
 		{
 			var worldAABB:b2AABB = new b2AABB();
 			worldAABB.lowerBound.Set(-100.0, -100.0);
 			worldAABB.upperBound.Set(400.0, 300.0);
 			_world = new b2World(worldAABB, new b2Vec2 (0.0, 10.0), true);
+			setParentJuggler(Starling.juggler);
+			start();
+			return this;
 		}
 	}
 }

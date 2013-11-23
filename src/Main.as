@@ -2,9 +2,13 @@ package
 {
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.IEventDispatcher;
 	
 	import bootstrap.ContextConfig;
+	import bootstrap.FSM;
 	import bootstrap.Shell;
+	
+	import org.robotlegs.utilities.statemachine.StateEvent;
 	
 	import robotlegs.bender.bundles.mvcs.MVCSBundle;
 	import robotlegs.bender.extensions.contextView.ContextView;
@@ -34,7 +38,8 @@ package
 				.configure(ContextConfig, new ContextView(this));
 			_context.initialize();
 			
-			
+			(_context.injector.getInstance(IEventDispatcher) as IEventDispatcher).dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START));
+
 			
 			
 		}

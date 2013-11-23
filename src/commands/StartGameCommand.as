@@ -1,20 +1,10 @@
 package commands
 {
-	import Box2D.Collision.Shapes.b2PolygonDef;
-	import Box2D.Dynamics.b2Body;
-	import Box2D.Dynamics.b2BodyDef;
-	
 	import models.GameModel;
 	import models.TestBox;
 	
 	import robotlegs.bender.bundles.mvcs.Command;
 	import robotlegs.bender.framework.api.IInjector;
-	
-	import starling.core.Starling;
-	import starling.display.DisplayObject;
-	import starling.display.Quad;
-	import starling.events.EnterFrameEvent;
-	import starling.events.Event;
 	
 	public class StartGameCommand extends Command
 	{
@@ -30,7 +20,9 @@ package commands
 		
 		override public function execute():void
 		{
-			_injector.unmap(GameModel);
+			if (_injector.hasMapping(GameModel)) {
+				_injector.unmap(GameModel);
+			}
 			var model:GameModel = _injector.instantiateUnmapped(GameModel).init()
 			_injector.map(GameModel).toValue(model);
 			
