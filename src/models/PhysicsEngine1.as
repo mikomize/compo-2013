@@ -23,7 +23,7 @@ package models
 		public function PhysicsEngine1()
 		{
 		}
-		private function getPlayer(index:Number):Player{
+		private function getPlayer(index:Number):PlayerA{
 			return index?_model.playerB : _model.playerA;
 		}
 		private function getRowsCount():Number{
