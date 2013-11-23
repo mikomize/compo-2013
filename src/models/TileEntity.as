@@ -22,7 +22,9 @@ package models
 		{
 			trace(_tile.getAttrib(TileTypes.ROW_ATTR));
 			setPosition(new Point(int(_tile.getAttrib(TileTypes.COLUMN_ATTR)), int(_tile.getAttrib(TileTypes.ROW_ATTR))));
-			//addChild(new Quad(30, 30, 0x0348820));
+			if (_tile.getAttrib('material') == 'wood') {
+			addChild(new Quad(30, 30, 0x0348820));
+			}
 		}
 	}
 }

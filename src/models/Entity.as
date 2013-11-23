@@ -25,6 +25,7 @@ package models
 		{
 			//TODO: matrix transform, camera, pan
 			//TODO: matrix transform, camera, pan
+			
 			x = _pos.x*30-30;
 			y = 600-_pos.y*30-30;
 		}

@@ -3,6 +3,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.IEventDispatcher;
+	import flash.geom.Rectangle;
 	
 	import bootstrap.ContextConfig;
 	import bootstrap.FSM;
@@ -30,7 +31,7 @@ package
 			
 			Starling.handleLostContext = true;
 			stage.frameRate = 60;
-			_starling                     = new Starling(Shell, stage);
+			_starling                     = new Starling(Shell, stage, new Rectangle(0, 0, 960,600));
 			_starling.start();
 			
 			_context = new Context()
