@@ -6,6 +6,10 @@ package models
 	
 	import framework.Animated;
 	
+	import maps.ITileManager;
+	import maps.LoadMaps;
+	import maps.TileManagerV1;
+	
 	import robotlegs.bender.framework.api.IInjector;
 	
 	import starling.core.Starling;
@@ -18,6 +22,8 @@ package models
 		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
+		
+		private var _tileManager:ITileManager;
 		
 		private var _playerA:Player;
 		private var _playerB:Player;
@@ -50,6 +56,10 @@ package models
 			_physicsEngine.initialize();
 		}
 		
+		public function initTailModel():void {
+			_tileManager = new LoadMaps().tileManager;;
+		}
+		
 		public function addEntity(entity:Entity):void
 		{
 			_injector.injectInto(entity);
@@ -66,6 +76,8 @@ package models
 			addEntity(_playerB);
 			setParentJuggler(Starling.juggler);
 			start();
+			initTailModel();
+			initPhysics();
 			return this;
 		}
 	}
