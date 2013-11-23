@@ -6,12 +6,16 @@ package models
 	
 	import framework.Animated;
 	
+	import robotlegs.bender.framework.api.IInjector;
+	
 	import starling.core.Starling;
 	
 	public class GameModel extends Animated
 	{
 		
-		private var _world:b2World;
+		[Inject]
+		public var _injector:IInjector;
+		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		public function GameModel()
@@ -19,22 +23,17 @@ package models
 			super();
 		}
 		
-		public function get world():b2World
-		{
-			return _world;
-		}
-		
 		override public function advanceTime(time:Number):void {
 			super.advanceTime(time);
-			_world.Step(time, 10);
+			_physicsEngine.update(time);
 			for each( var entity:Entity in _entities) {
 				entity.updateView();
 			}
 		}
 		
 		public function initPhysics():void{
-			_physicsEngine = new PhysicsEngine1();
-			_physicsEngine.initialize(this);
+			_physicsEngine = _injector.instantiateUnmapped(PhysicsEngine1);
+			_physicsEngine.initialize();
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -46,10 +45,6 @@ package models
 		
 		public function init():GameModel
 		{
-			var worldAABB:b2AABB = new b2AABB();
-			worldAABB.lowerBound.Set(-100.0, -100.0);
-			worldAABB.upperBound.Set(400.0, 300.0);
-			_world = new b2World(worldAABB, new b2Vec2 (0.0, 10.0), true);
 			setParentJuggler(Starling.juggler);
 			start();
 			return this;

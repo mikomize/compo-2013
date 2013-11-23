@@ -4,6 +4,8 @@ package commands
 	
 	import robotlegs.bender.bundles.mvcs.Command;
 	import robotlegs.bender.framework.api.IInjector;
+
+	
 	
 	public class StartGameCommand extends Command
 	{
