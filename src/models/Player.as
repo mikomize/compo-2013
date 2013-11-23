@@ -25,8 +25,9 @@ package models
 		
 		override public function updateView():void
 		{
-			x = _pos.x;
-			y = _pos.y;
+			//TODO: matrix transform, camera, pan
+			x = _pos.x*30;
+			y = 100-_pos.y*30;
 		}
 		
 		override public function spawn():void
