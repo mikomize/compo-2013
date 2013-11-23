@@ -85,7 +85,9 @@ package models
 		}
 		private function _getPlayerIntendedForce(player:PlayerA):b2Vec2
 		{
-			return new b2Vec2(10,0);
+			var direction:Point = player.getIntendedDirection();
+			
+			return new b2Vec2(direction.x*10,direction.y*10);
 		}
 		private function _processPlayersIntentions():void{
 			for(var index:Number=0;index<2;++index){
