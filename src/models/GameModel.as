@@ -1,10 +1,13 @@
 package models
 {
+	import flash.ui.Keyboard;
+	
 	import framework.Animated;
 	
 	import robotlegs.bender.framework.api.IInjector;
 	
 	import starling.core.Starling;
+	import starling.events.KeyboardEvent;
 	
 	public class GameModel extends Animated
 	{
@@ -15,15 +18,15 @@ package models
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		
-		private var _playerA:Player;
-		private var _playerB:Player;
+		private var _playerA:PlayerA;
+		private var _playerB:PlayerA;
 		
-		public function get playerA():Player 
+		public function get playerA():PlayerA 
 		{
 			return _playerA;
 		}
 		
-		public function get playerB():Player 
+		public function get playerB():PlayerA 
 		{
 			return _playerB;
 		}
@@ -31,6 +34,11 @@ package models
 		public function GameModel()
 		{
 			super();
+		}
+		
+		public function get keyPressed():Array
+		{
+			return _keyPressed;
 		}
 		
 		override public function advanceTime(time:Number):void {
@@ -54,15 +62,52 @@ package models
 			Starling.current.stage.addChild(entity);
 		}
 		
+		
 		public function init():GameModel
 		{
-			_playerA = new Player();
+			_playerA = new PlayerA();
 			addEntity(_playerA);
-			_playerB = new Player();
+			_playerB = new PlayerB();
+			bindKeys();
 			addEntity(_playerB);
 			setParentJuggler(Starling.juggler);
 			start();
 			return this;
+		}
+		
+		private var _keyPressed:Array = new Array();
+		
+		private function keyDown(e:KeyboardEvent):void
+		{
+			if (_keyPressed.indexOf(e.keyCode) == -1) {
+				_keyPressed.push(e.keyCode);
+			}
+		}
+		
+		private function keyUp(e:KeyboardEvent):void
+		{ 
+			var tmp:int = _keyPressed.indexOf(e.keyCode);
+			if (tmp != -1) {
+				_keyPressed.splice(tmp, 1);
+			}
+		}
+		
+		public function bindKeys():void 
+		{
+			Starling.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			Starling.current.stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+		}
+		
+		public function unbindKeys():void 
+		{
+			Starling.current.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			Starling.current.stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
+		}
+		
+		public function dispose():void
+		{
+			stop();
+			unbindKeys();
 		}
 	}
 }
