@@ -28,7 +28,6 @@ package maps
 					map[row][column] = tile;
 				}	
 			}
-
 		}
 		public function getRowsCount():int{
 			return rows;

@@ -14,5 +14,7 @@ package maps
 		
 		public static const ROW_ATTR:String = 'row';
 		public static const COLUMN_ATTR:String = 'column';
+		
+		public static const FINISH_POINT_ATTR:String = 'finishPoint';
 	}
 }

@@ -8,7 +8,10 @@ package maps
 			_params = JSON.parse(JSON.stringify(params));
 		}
 		public function getAttrib(key:String):String{
-			return _params[key];
+			if(_params.hasOwnProperty(key)){
+				return _params[key];
+			}
+				return null;
 		}
 		
 		public function setAttrib(key:String, value:String):void{
