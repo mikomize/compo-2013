@@ -36,7 +36,7 @@ package models
 		{
 			entity.spawn();
 			_entities.push(entity);
-			Starling.current.stage.addChild(entity.view);
+			Starling.current.stage.addChild(entity);
 		}
 		
 		public function init():GameModel

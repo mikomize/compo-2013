@@ -23,20 +23,9 @@ package commands
 			if (_injector.hasMapping(GameModel)) {
 				_injector.unmap(GameModel);
 			}
-			var model:GameModel = _injector.instantiateUnmapped(GameModel).init()
+			var model:GameModel = _injector.instantiateUnmapped(GameModel).init();
 			_injector.map(GameModel).toValue(model);
 			
-		    
-			var box1:TestBox = new TestBox(10,20);
-			_injector.injectInto(box1);
-			model.addEntity(box1);
-			
-			var box2:TestBox = new TestBox(50,10);
-			_injector.injectInto(box2);
-			model.addEntity(box2);
-
-			
-
 			
 		}
 	}
