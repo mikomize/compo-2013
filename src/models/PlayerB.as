@@ -22,7 +22,7 @@ package models
 			skins[-1] = new Image(atlas.getTexture('p2n'));
 			skins[0]  = new Image(atlas.getTexture('p2'));
 			skins[1]  =  new Image(atlas.getTexture('p2p')); 
-		}	
+		}
 		
 		override public function get playerName():String
 		{
