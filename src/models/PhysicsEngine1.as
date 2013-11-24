@@ -37,7 +37,7 @@ package models
 		protected static const WALK_FORCE:Number = 20;
 		protected static const FORBID_JUMP_VELOCITY:Number = 0.01;
 		private static const MAGNETIC_BRICK_FORCE:Number = 50;
-		private static const MAGNETIC_PLAYER_FORCE:Number = 200;
+		private static const MAGNETIC_PLAYER_FORCE:Number = 400;
 		private static const KILL_PARTICLES_PER_FRAME:uint = 1;
 		private static const PARTICLE_GRID_RADIUS:uint = 4;
 
@@ -273,7 +273,9 @@ package models
 				var position:b2Vec2=_playerBodies[index].GetPosition();
 				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
 				if(getPlayer(index).state ==  PlayerA.STATE_WIN){
-					_playerBodies[index].SetXForm(new b2Vec2(-1,-1),0)
+					getPlayer(index).setPosition(new Point(-1,-1));
+					_playerBodies[index].SetXForm(new b2Vec2(-1,-1),0);
+					_model.shadows[index].setPosition(new Point(-1,-1));
 				}else {
 					getPlayer(index).setPosition(new Point(position.x,position.y));
 					var row = Math.floor(position.y);
