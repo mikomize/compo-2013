@@ -40,6 +40,9 @@ package models
 		[Inject]
 		public var _global:Global;
 		
+		[Inject]
+		public var _levelManger:LevelManger;
+		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		public var particles:Vector.<Particle> = new Vector.<Particle>();
@@ -116,7 +119,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(_global.level);
+			_tileManager = _levelManger.getLevel(_global.level);
 		}
 		
 		public function addEntity(entity:Entity):void

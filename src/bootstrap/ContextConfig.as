@@ -7,6 +7,7 @@ package bootstrap
 	
 	import models.GameAssets;
 	import models.Global;
+	import models.LevelManger;
 	import models.Stage;
 	
 	import org.robotlegs.utilities.statemachine.FSMInjector;
@@ -40,6 +41,7 @@ package bootstrap
 			_injector.map(GameAssets).asSingleton();
 			_injector.map(Stage).asSingleton();
 			_injector.map(Global).asSingleton();
+			_injector.map(LevelManger).asSingleton();
 			setUpFSM();
 		}
 		
