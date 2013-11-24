@@ -27,6 +27,7 @@ package models
 		private var _particleBodies: Vector.<b2Body> = new Vector.<b2Body>();
 
 		private var particleSpawingPoints : Vector.<Point> = new Vector.<Point>();
+		private var magnetPoints : Vector.<Point> = new Vector.<Point>();
 		private var knownParticleSpawningPoints : Vector.<Point> = new Vector.<Point>();
 		private var savedParticlePolarities: Vector.<Number> = new Vector.<Number>();
 		private var savedParticlePaths : Vector.<Vector.<b2Vec2> > = new Vector.<Vector.<b2Vec2> >();
@@ -206,6 +207,7 @@ package models
 			
 			createStatics();
 			initParticlesSpawningPoints();
+			initMagnetPoints();
 			createParticles();
 		}
 		
@@ -338,6 +340,23 @@ package models
 			}
 			
 		}
+		private function initMagnetPoints():void{
+			var colsCount:Number = getColsCount();
+			var rowsCount:Number = getRowsCount();
+			//TODO: może by tak stablicować sobie te tile które są z metalu?
+			for(var col:Number=0;col<colsCount;++col){
+				for(var row:Number=0;row<rowsCount;++row){
+					var material:String = _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR);
+					if(material == TileTypes.POSITIVE){
+					}else if(material == TileTypes.NEGATIVE){
+					}else if(material == TileTypes.METAL){
+					}else{
+						continue;
+					}
+					magnetPoints.push(new Point(col,row));
+				}
+			}
+		}
 		private var pairs:uint=0;
 		private function _processMagnetism():void
 		{
@@ -363,8 +382,9 @@ package models
 				var colsCount:Number = getColsCount();
 				var rowsCount:Number = getRowsCount();
 				//TODO: może by tak stablicować sobie te tile które są z metalu?
-				for(var col:Number=0;col<colsCount;++col){
-					for(var row:Number=0;row<rowsCount;++row){
+				for each (var magnetPoint:Point in magnetPoints){
+					var col :Number = magnetPoint.x;
+					var row :Number= magnetPoint.y;
 						var material:String = _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR);
 						var flip:int = 0;
 						if(material == TileTypes.POSITIVE){
@@ -428,7 +448,6 @@ package models
 									}
 								}
 							}
-						}
 						
 					}
 				}
