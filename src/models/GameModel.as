@@ -115,7 +115,6 @@ package models
 			
 			for (i =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {
-					trace([j,i]);
 					var tile:Tile = _tileManager.getCell(j, i);
 					var tileEntity:TileEntity = new TileEntity(tile);
 					addEntity(tileEntity);
