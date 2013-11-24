@@ -1,6 +1,7 @@
 package models
 {
 	import Box2D.Collision.Shapes.b2CircleDef;
+	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.Shapes.b2PolygonDef;
 	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
@@ -73,22 +74,6 @@ package models
 			body.CreateShape(shapeDef);
 			body.SetMassFromShapes();
 			return body;
-		}
-		private function createStaticRect(leftColumn:Number,bottomRow:Number,rightColumn:Number,topRow:Number):b2Body
-		{
-			var groundBodyDef:b2BodyDef = new b2BodyDef();
-			groundBodyDef.userData = new Object();
-			groundBodyDef.userData.type = "tilerect";
-			groundBodyDef.userData.leftColumn = leftColumn;
-			groundBodyDef.userData.rightColumn = rightColumn;
-			groundBodyDef.userData.bottomRow= bottomRow;
-			groundBodyDef.userData.topRow= topRow;
-			groundBodyDef.position.Set((leftColumn+rightColumn)/2+.5, (bottomRow+topRow)/2+.5);
-			var groundBody:b2Body = _world.CreateBody(groundBodyDef);
-			var groundShapeDef:b2PolygonDef = new b2PolygonDef();
-			groundShapeDef.SetAsBox((1+rightColumn-leftColumn)/2, (1+topRow-bottomRow)/2);
-			groundBody.CreateShape(groundShapeDef);
-			return groundBody;
 		}
 		public function createStaticLine(start:Point,end:Point):b2Body
 		{
@@ -172,26 +157,6 @@ package models
 			}
 			
 		}
-		private function createStaticsOld():void
-		{
-			createStaticRect(-1,0,-1,getRowsCount()-1);
-			createStaticRect(getColsCount(),0,getColsCount(),getRowsCount()-1);
-			createStaticRect(0,-1,getColsCount()-1,-1);
-			createStaticRect(0, getRowsCount(),getColsCount()-1,getRowsCount());
-			
-			var rowsCount:Number = getRowsCount();
-			var colsCount:Number = getColsCount();
-			for(var row:Number=0;row<rowsCount;++row){
-				for(var col:Number=0;col<colsCount;++col){
-					var colFirst:Number=col;
-					for(;col<colsCount && _model.tileManager.getCell(row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;++col){
-					}
-					if(colFirst<col){
-						createStaticRect(colFirst,rowsCount-row-1,col-1,rowsCount-row-1);
-					}
-				}
-			}
-		}
 		public function initialize():void
 		{
 			var worldAABB:b2AABB = new b2AABB();
@@ -202,7 +167,39 @@ package models
 			for(var index:Number=0;index<2;++index)
 				_playerBodies.push(spawnPlayer(index));
 			
-			createStatics();	
+			createStatics();
+			createParticles();
+		}
+		private function getRandomParticleSpawnPosition():Point
+		{
+			while(true){
+				var col:Number = Math.floor(Math.random()*getColsCount());
+				var row:Number = Math.floor(Math.random()*getRowsCount());
+				if(!isSolid(row,col)){
+					return new Point(col,row);
+				}
+			}
+			return null;//WTF compilator.
+		}
+		
+		private function createParticles():void
+		{
+			var massData:b2MassData = new b2MassData();
+			massData.mass = 4;
+			for(var i:uint=0;i<_model.particles.length;++i){
+				
+				var bodyDef:b2BodyDef = new b2BodyDef();
+				var position:Point = getRandomParticleSpawnPosition();
+				bodyDef.position.Set(position.x,position.y);
+				bodyDef.userData = new Object();
+				bodyDef.userData.type = "particle";
+				
+				var body:b2Body = _world.CreateBody(bodyDef);
+				
+				body.SetMass(massData);
+				
+				
+			}
 		}
 		
 		public function update(deltaTimeSeconds:Number):void
@@ -210,6 +207,11 @@ package models
 			_unprocessedTime += deltaTimeSeconds;
 			while(_FRAME_DURATION < _unprocessedTime){
 				_step();
+			}
+			for(var index:Number=0;index<2;++index){
+				var position:b2Vec2=_playerBodies[index].GetPosition();
+				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
+				getPlayer(index).setPosition(new Point(position.x,position.y));
 			}
 		}
 		private var DX :Array= new Array(-1,0,1,0);
@@ -229,6 +231,7 @@ package models
 		
 		private function _processPlayersIntentions():void
 		{
+			
 			for(var index:Number=0;index<2;++index){
 				var body:b2Body = _playerBodies[index];
 				var position:b2Vec2=body.GetPosition();
@@ -265,7 +268,7 @@ package models
 						}else{
 							dir = 1;
 						}
-						var otherPosition = _playerBodies[1-index].GetPosition();
+						var otherPosition:b2Vec2 = _playerBodies[1-index].GetPosition();
 						diff = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
 						diff.normalize( MAGNETIC_PLAYER_FORCE /diff.length);
 						body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
@@ -309,12 +312,6 @@ package models
 			_processPlayersIntentions();
 			_world.Step(_FRAME_DURATION, 10);
 			_unprocessedTime -= _FRAME_DURATION;
-			for(var index:Number=0;index<2;++index){
-				var position:b2Vec2=_playerBodies[index].GetPosition();
-				//trace(_playerBodies[index].GetAngle());
-				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
-				getPlayer(index).setPosition(new Point(position.x,position.y));
-			}
 		}
 	}
 }
