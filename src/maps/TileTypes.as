@@ -5,6 +5,9 @@ package maps
 		public static const MATERIAL_ATTR:String = 'material';
 		public static const WOOD:String = 'wood';
 		public static const AIR:String = 'air';
+		public static const METAL:String = 'metal';
+		public static const POSITIVE:String = 'positive';
+		public static const NEGATIVE:String = 'negative';
 		
 		
 		public static const SPAWN_POINT_ATTR:String = 'respawnPoint';
