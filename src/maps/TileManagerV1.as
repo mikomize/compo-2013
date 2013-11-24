@@ -9,6 +9,8 @@ package maps
 		
 		private var tiledSets:Array = new Array();
 		
+		private var _phisicsEngineVersion:String;
+		
 		public function TileManagerV1():void
 		{
 		}
@@ -66,7 +68,12 @@ package maps
 					map[row][column] = tile;
 				}	
 			}
+			_phisicsEngineVersion = json.properties.phisicsEngineVersion;
 			return this;
+		}
+		
+		public function getPhisicsEngineVersion():String{
+			return _phisicsEngineVersion;
 		}
 	}
 }

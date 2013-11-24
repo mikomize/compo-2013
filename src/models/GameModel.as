@@ -104,8 +104,7 @@ package models
 			}
 		}
 		
-		public function initPhysics():void {
-			var chosen:String = 'qbolectweakedbymiko';
+		public function initPhysics(chosen:String):void {
 			var physics:Dictionary = new Dictionary();
 			physics['qbolec'] = PhysicsEngine1;
 			physics['qbolectweakedbymiko'] = PhysicsEngine2;
@@ -114,7 +113,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(0);
+			_tileManager = new LevelManger().init(1);
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -146,7 +145,7 @@ package models
 				particles.push(particle);
 				addEntity(particle);
 			}
-			initPhysics();
+			initPhysics(tileManager.getPhisicsEngineVersion());
 			
 			
 			for (i =0;i<_tileManager.getColumsCount();i++) {
