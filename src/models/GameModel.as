@@ -3,6 +3,8 @@ package models
 	
 	import bootstrap.FSM;
 	
+	import feathers.display.TiledImage;
+	
 	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -19,7 +21,9 @@ package models
 	import robotlegs.bender.framework.api.IInjector;
 	
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.KeyboardEvent;
+	import starling.textures.TextureAtlas;
 	
 	public class GameModel extends Animated
 	{
@@ -42,6 +46,9 @@ package models
 		
 		[Inject]
 		public var _levelManger:LevelManger;
+		
+		[Inject]
+		public var _gameAssets:GameAssets;
 		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
@@ -158,6 +165,20 @@ package models
 			}
 			initPhysics(tileManager.getPhisicsEngineVersion());
 			
+			if(_tileManager.getBg()){
+				var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
+				var image:Image = new Image(atlas.getTexture(_tileManager.getBg()))
+				image.y = _tileManager.getRowsCount() * TILE_HEIGHT -  image.height;
+				if(_tileManager.getBgRepeat() && _tileManager.getRowsCount() * TILE_HEIGHT -  image.height > 0){
+					var imageRepeat:TiledImage = new TiledImage(atlas.getTexture(_tileManager.getBgRepeat()))
+					var imageRepeatHeight:Number = imageRepeat.height;
+					imageRepeat.height = _tileManager.getRowsCount() * TILE_HEIGHT - image.height;
+					imageRepeat.y = -((imageRepeatHeight - ((_tileManager.getRowsCount() * TILE_HEIGHT) - image.height) % imageRepeatHeight) % imageRepeatHeight);
+					imageRepeat.height = _tileManager.getRowsCount() * TILE_HEIGHT - image.height - imageRepeat.y;
+					_camera.add(imageRepeat);
+				}
+				_camera.add(image);
+			}
 			
 			for (i =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {

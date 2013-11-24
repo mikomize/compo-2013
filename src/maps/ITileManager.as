@@ -16,5 +16,7 @@ package maps
 		function serialize():String;
 		
 		function deserialize(json:Object):ITileManager;
+		
+		function getBgRepeat():String
 	}
 }

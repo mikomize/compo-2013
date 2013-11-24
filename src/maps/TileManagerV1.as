@@ -13,8 +13,16 @@ package maps
 		
 		private var _bg:String;
 		
+		private var _bgRepeat:String;
+		
+		
 		public function TileManagerV1():void
 		{
+		}
+
+		public function getBgRepeat():String
+		{
+			return _bgRepeat;
 		}
 
 		public function getBg():String
@@ -81,6 +89,9 @@ package maps
 			_phisicsEngineVersion = json.properties.phisicsEngineVersion;
 			if(json.properties.hasOwnProperty('bg')){
 				_bg = json.properties.bg;
+			}
+			if(json.properties.hasOwnProperty('bgRepeat')){
+				_bgRepeat = json.properties.bgRepeat;
 			}
 			return this;
 		}
