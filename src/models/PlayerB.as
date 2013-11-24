@@ -14,16 +14,7 @@ package models
 			super();
 		}
 		
-		override protected function setSkin():void
-		{
-			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
-			
-			skins = new Dictionary;
-			skins[-1] = new Image(atlas.getTexture('p2n'));
-			skins[0]  = new Image(atlas.getTexture('p2'));
-			skins[1]  =  new Image(atlas.getTexture('p2p')); 
-		}
-		
+
 		override public function get playerName():String
 		{
 			return "B";

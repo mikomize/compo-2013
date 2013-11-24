@@ -6,12 +6,15 @@ package models
 	import flash.text.TextFormat;
 	
 	import starling.core.Starling;
+	import starling.display.Button;
 	import starling.display.Sprite;
 	import starling.text.TextField;
 
 	public class Hud extends Sprite
 	{
 		private var _winLabel:TextField;
+		
+		private var _exitButton:Button;
 		
 		public function Hud(viewport:Rectangle)
 		{
