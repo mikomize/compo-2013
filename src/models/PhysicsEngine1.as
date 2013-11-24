@@ -150,7 +150,7 @@ package models
 			for(col=0;col<colsCount;++col){
 				for(row=0;row<rowsCount;++row){
 					rowFirst=row;
-					for(;row<colsCount && isSolid(row,col-1) && !isSolid(row,col);++row){
+					for(;row<rowsCount && isSolid(row,col-1) && !isSolid(row,col);++row){
 					}
 					if(rowFirst<row){
 						createStaticLine(new Point(col,row), new Point(col,rowFirst));
@@ -161,7 +161,7 @@ package models
 			for(col=0;col<colsCount;++col){
 				for(row=0;row<rowsCount;++row){
 					rowFirst=row;
-					for(;row<colsCount && isSolid(row,col+1) && !isSolid(row,col);++row){
+					for(;row<rowsCount && isSolid(row,col+1) && !isSolid(row,col);++row){
 					}
 					if(rowFirst<row){
 						createStaticLine(new Point(col+1,rowFirst), new Point(col+1,row));
