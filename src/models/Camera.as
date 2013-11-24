@@ -11,7 +11,8 @@ package models
 		
 		private var _canvas:Sprite;
 		private var _viewport:Sprite;
-		private var size:Rectangle;
+		private var _viewportSize:Rectangle;
+		private var _mapsize:Rectangle;
 		
 		private var _tmp:int;
 		
@@ -29,9 +30,10 @@ package models
 			_viewport.width = viewport.width;
 			_viewport.height = viewport.height;
 			
-			_viewport.clipRect = viewport;
 			
-			size = viewport.clone();
+			
+           	_mapsize = mapsize.clone();		
+			_viewportSize = viewport.clone();
 		}
 		
 		public function add(obj:DisplayObject):void 
@@ -46,12 +48,12 @@ package models
 		
 		public function set y(val:int):void 
 		{
-			_canvas.y = Math.max(Math.min(0, val), -(_canvas.height - size.height) );
+			_canvas.y = Math.max(Math.min(0, val), -(_mapsize.height - _viewportSize.height) );
 		}
 		
 		public function stick(val:int):void
 		{
-			y = -val + size.height / 2;
+			y = -val + _viewportSize.height / 2;
 		}
 		
 		public function get y():int
@@ -59,9 +61,5 @@ package models
 			return _canvas.y;
 		}
 		
-		public function scrollBot():void 
-		{
-			y = -(_canvas.height - size.height);
-		}
 	}
 }

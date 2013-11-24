@@ -63,8 +63,6 @@ package models
 		override public function advanceTime(time:Number):void {
 			super.advanceTime(time);
 			_physicsEngine.update(time);
-			
-
 			stickCameraToPlayer();
 		}
 		
