@@ -37,6 +37,12 @@ package models
 		[Inject]
 		public var _stage:Stage;
 		
+		[Inject]
+		public var _global:Global;
+		
+		[Inject]
+		public var _levelManger:LevelManger;
+		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		public var particles:Vector.<Particle> = new Vector.<Particle>();
@@ -113,7 +119,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(0);
+			_tileManager = _levelManger.getLevel(_global.level);
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -169,6 +175,9 @@ package models
 		
 		private function keyDown(e:KeyboardEvent):void
 		{
+			if (e.keyCode == Keyboard.P) {
+				stickCameraToPlayer();
+			}
 			if (_keyPressed.indexOf(e.keyCode) == -1) {
 				_keyPressed.push(e.keyCode);
 			}

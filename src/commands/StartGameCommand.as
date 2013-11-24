@@ -1,6 +1,9 @@
 package commands
 {
+	
 	import models.GameModel;
+	
+	import org.robotlegs.utilities.statemachine.StateEvent;
 	
 	import robotlegs.bender.bundles.mvcs.Command;
 	import robotlegs.bender.framework.api.IInjector;
@@ -11,7 +14,6 @@ package commands
 	
 	public class StartGameCommand extends Command
 	{
-		
 		
 		[Inject]
 		public var _injector:IInjector;

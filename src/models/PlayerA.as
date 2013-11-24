@@ -6,7 +6,10 @@ package models
 	
 	import maps.TileTypes;
 	
+	import starling.display.DisplayObject;
 	import starling.display.Image;
+	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.textures.TextureAtlas;
 
 	public class PlayerA extends Entity
@@ -55,15 +58,36 @@ package models
 			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
 			
 			skins = new Dictionary;
-			skins[-1] = new Image(atlas.getTexture('p1n'));
-			skins[0]  = new Image(atlas.getTexture('p1'));
-			skins[1]  =  new Image(atlas.getTexture('p1p'));
+			skins[-1] = buildSkin('B');
+			skins[0]  = buildSkin('N');
+			skins[1]  = buildSkin('R');
 		}	
+		
+		protected function buildSkin(pol:String):Sprite
+		{
+			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
+			var tmp:Sprite = new Sprite();
+			tmp.addChild(new Image(atlas.getTexture(playerName + '/' + pol + '/' + '1')));
+			tmp.addChild(new Image(atlas.getTexture(playerName + '/' + pol + '/' + '2')));
+			var rot:Sprite = new Sprite();
+			rot.pivotX = tmp.width/2;
+			rot.pivotY = tmp.height/2;
+			rot.x = tmp.width/2;
+			rot.y = tmp.height/2;
+			rot.addChild(new Image(atlas.getTexture(playerName + '/' + pol + '/' + '3')));
+			rot.addEventListener(Event.ENTER_FRAME, function ():void {
+				rot.rotation = - _angle;
+			});
+			tmp.addChild(rot);
+			tmp.addChild(new Image(atlas.getTexture(playerName + '/' + pol + '/' + '4')));
+			return tmp;
+		}
 		
 		override public function spawn():void
 		{
 			setSkin();
-			for each( var image:Image in skins){
+			
+			for each( var image:DisplayObject in skins){
 				addChild(image);
 			}
 			selectSkin();
@@ -72,7 +96,7 @@ package models
 		}
 		
 		public function selectSkin():void{
-			for each( var image:Image in skins){
+			for each( var image:DisplayObject in skins){
 				image.visible = false;
 			}
 			skins[polarity].visible = true;
@@ -122,6 +146,14 @@ package models
 			}
 			
 			return polarity;
+		}
+		
+		protected var _angle:Number = 0;
+		
+		override public function setAngle(angle:Number):void
+		{	
+			_angle = angle;
+			updateView();
 		}
 	}
 }

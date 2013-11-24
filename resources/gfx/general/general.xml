@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:d20469793232005fb21859b98d8690b7:2617c12543a510fc4628ac407ff640e6:07644cf19cb93bed4264459036bfb712$ -->
+<!-- $TexturePacker:SmartUpdate:39d9b3c68bb83fc235b04c37c4a8f0a7$ -->
 <TextureAtlas imagePath="general.png">
-    <SubTexture name="blue" x="231" y="2" width="5" height="5"/>
-    <SubTexture name="main" x="2" y="2" width="96" height="60"/>
-    <SubTexture name="metal1" x="144" y="144" width="38" height="38"/>
-    <SubTexture name="metalMinus" x="184" y="104" width="38" height="38"/>
-    <SubTexture name="metalPlus" x="144" y="104" width="38" height="38"/>
-    <SubTexture name="p1" x="64" y="64" width="60" height="60"/>
-    <SubTexture name="p1n" x="2" y="188" width="60" height="60"/>
-    <SubTexture name="p1p" x="2" y="126" width="60" height="60"/>
-    <SubTexture name="p2" x="2" y="64" width="60" height="60"/>
-    <SubTexture name="p2n" x="162" y="2" width="60" height="60"/>
-    <SubTexture name="p2p" x="100" y="2" width="60" height="60"/>
-    <SubTexture name="red" x="224" y="2" width="5" height="5"/>
-    <SubTexture name="wood1" x="206" y="64" width="38" height="38"/>
-    <SubTexture name="wood2" x="166" y="64" width="38" height="38"/>
-    <SubTexture name="wood3" x="104" y="206" width="38" height="38"/>
-    <SubTexture name="wood4" x="104" y="166" width="38" height="38"/>
-    <SubTexture name="wood5" x="126" y="64" width="38" height="38"/>
-    <SubTexture name="wood6" x="104" y="126" width="38" height="38"/>
-    <SubTexture name="wood7" x="64" y="206" width="38" height="38"/>
-    <SubTexture name="wood8" x="64" y="166" width="38" height="38"/>
-    <SubTexture name="wood9" x="64" y="126" width="38" height="38"/>
+    <SubTexture name="A/B/1" x="312" y="175" width="60" height="60"/>
+    <SubTexture name="A/B/2" x="250" y="175" width="60" height="60"/>
+    <SubTexture name="A/B/3" x="462" y="188" width="42" height="44" frameX="-9" frameY="-8" frameWidth="60" frameHeight="60"/>
+    <SubTexture name="A/B/4" x="188" y="175" width="60" height="60"/>
+    <SubTexture name="A/N/1" x="126" y="118" width="60" height="60"/>
+    <SubTexture name="A/N/2" x="64" y="118" width="60" height="60"/>
+    <SubTexture name="A/N/3" x="418" y="188" width="42" height="44" frameX="-9" frameY="-8" frameWidth="60" frameHeight="60"/>
+    <SubTexture name="A/N/4" x="2" y="118" width="60" height="60"/>
+    <SubTexture name="A/R/1" x="436" y="126" width="60" height="60"/>
+    <SubTexture name="A/R/2" x="374" y="126" width="60" height="60"/>
+    <SubTexture name="A/R/3" x="374" y="188" width="42" height="44" frameX="-9" frameY="-8" frameWidth="60" frameHeight="60"/>
+    <SubTexture name="A/R/4" x="312" y="113" width="60" height="60"/>
+    <SubTexture name="blue" x="505" y="2" width="5" height="5"/>
+    <SubTexture name="level_1" x="2" y="2" width="184" height="114"/>
+    <SubTexture name="main" x="188" y="2" width="184" height="109"/>
+    <SubTexture name="metal1" x="162" y="237" width="38" height="38"/>
+    <SubTexture name="metalMinus" x="122" y="220" width="38" height="38"/>
+    <SubTexture name="metalPlus" x="82" y="220" width="38" height="38"/>
+    <SubTexture name="p1" x="250" y="113" width="60" height="60"/>
+    <SubTexture name="p1n" x="188" y="113" width="60" height="60"/>
+    <SubTexture name="p1p" x="436" y="64" width="60" height="60"/>
+    <SubTexture name="p2" x="374" y="64" width="60" height="60"/>
+    <SubTexture name="p2n" x="436" y="2" width="60" height="60"/>
+    <SubTexture name="p2p" x="374" y="2" width="60" height="60"/>
+    <SubTexture name="red" x="498" y="2" width="5" height="5"/>
+    <SubTexture name="wood1" x="42" y="220" width="38" height="38"/>
+    <SubTexture name="wood2" x="2" y="220" width="38" height="38"/>
+    <SubTexture name="wood3" x="122" y="180" width="38" height="38"/>
+    <SubTexture name="wood4" x="82" y="180" width="38" height="38"/>
+    <SubTexture name="wood5" x="42" y="180" width="38" height="38"/>
+    <SubTexture name="wood6" x="2" y="180" width="38" height="38"/>
+    <SubTexture name="wood7" x="454" y="234" width="38" height="38"/>
+    <SubTexture name="wood8" x="414" y="234" width="38" height="38"/>
+    <SubTexture name="wood9" x="374" y="234" width="38" height="38"/>
 </TextureAtlas>
