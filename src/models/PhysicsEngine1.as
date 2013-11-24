@@ -238,42 +238,6 @@ package models
 				var velocity:b2Vec2=body.GetLinearVelocity();
 				var player:PlayerA = this.getPlayer(index);
 				var direction:Point = player.getIntendedDirection();
-				var polarity:Number = player.getPolarity();
-				if(polarity){
-					var colsCount:Number = getColsCount();
-					var rowsCount:Number = getRowsCount();
-					//TODO: może by tak stablicować sobie te tile które są z metalu?
-					for(var col:Number=0;col<colsCount;++col){
-						for(var row:Number=0;row<rowsCount;++row){
-							var material:String = _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR);
-							var dir:int = 0;
-							if(material == TileTypes.POSITIVE){
-								dir = -polarity;
-							}else if(material == TileTypes.NEGATIVE){
-								dir = polarity;
-							}else if(material == TileTypes.METAL){
-								dir = 1;
-							}
-							if(dir){
-								var diff:Point = new Point( col+.5 - position.x ,row+.5 - position.y);
-								diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
-								body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
-							}
-						}
-					}
-					var otherPolarity:Number = this.getPlayer(1-index).getPolarity();
-					if(otherPolarity){
-						if(otherPolarity == polarity){
-							dir = -1;
-						}else{
-							dir = 1;
-						}
-						var otherPosition:b2Vec2 = _playerBodies[1-index].GetPosition();
-						diff = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
-						diff.normalize( MAGNETIC_PLAYER_FORCE /diff.length);
-						body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
-					}
-				}
 				var contactDirections:Array = getContactDirections(body);
 				if(direction.x || direction.y){
 					for(var d:Number=0;d<4;++d){
@@ -307,9 +271,73 @@ package models
 				}
 			}
 		}
+		private function _processMagnetism():void
+		{
+			if(getPlayer(0).getPolarity()||getPlayer(1).getPolarity()){
+				var colsCount:Number = getColsCount();
+				var rowsCount:Number = getRowsCount();
+				//TODO: może by tak stablicować sobie te tile które są z metalu?
+				for(var col:Number=0;col<colsCount;++col){
+					for(var row:Number=0;row<rowsCount;++row){
+						var material:String = _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR);
+						var flip:int = 0;
+						if(material == TileTypes.POSITIVE){
+							flip = 1;
+						}else if(material == TileTypes.NEGATIVE){
+							flip = -1;
+						}else if(material == TileTypes.METAL){
+							flip = 0;
+						}else{
+							continue;
+						}
+						for(var index:uint=0;index<2;++index){
+							var polarity:int = getPlayer(index).getPolarity();
+							if(polarity){
+								var body:b2Body = _playerBodies[index];
+								var position:b2Vec2=body.GetPosition();
+								
+								var diff:Point = new Point( col+.5 - position.x ,row+.5 - position.y);
+								diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
+								
+								var dir:Number = polarity==flip ? -1:1;
+							
+								body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
+					
+							}
+						}
+					}
+				}
+			}
+		}
+		private function _processPlayerMagnetism():void
+		{
+			for(var index:uint=0;index<2;++index){
+				var polarity:int = getPlayer(index).getPolarity();
+				if(polarity){
+					var otherPolarity:Number = this.getPlayer(1-index).getPolarity();
+					if(otherPolarity){
+						var dir:Number;
+						if(otherPolarity == polarity){
+							dir = -1;
+						}else{
+							dir = 1;
+						}
+						var body:b2Body = _playerBodies[index];
+						var position:b2Vec2=body.GetPosition();
+						var otherPosition:b2Vec2 = _playerBodies[1-index].GetPosition();
+						var diff:Point = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
+						diff.normalize( MAGNETIC_PLAYER_FORCE /diff.length);
+						body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
+					}
+				}
+			}
+			
+		}
 		private function _step():void
 		{
 			_processPlayersIntentions();
+			_processMagnetism();
+			_processPlayerMagnetism();
 			_world.Step(_FRAME_DURATION, 10);
 			_unprocessedTime -= _FRAME_DURATION;
 		}
