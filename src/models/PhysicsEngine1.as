@@ -30,6 +30,7 @@ package models
 		private static const JUMP_IMPULSE:Number = 45;
 		private static const FORBID_JUMP_VELOCITY:Number = 0.01;
 		private static const MAGNETIC_BRICK_FORCE:Number = 50;
+		private static const MAGNETIC_PLAYER_FORCE:Number = 200;
 		public function PhysicsEngine1()
 		{
 		}
@@ -256,6 +257,18 @@ package models
 								body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
 							}
 						}
+					}
+					var otherPolarity:Number = this.getPlayer(1-index).getPolarity();
+					if(otherPolarity){
+						if(otherPolarity == polarity){
+							dir = -1;
+						}else{
+							dir = 1;
+						}
+						var otherPosition = _playerBodies[1-index].GetPosition();
+						var diff:Point = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
+						diff.normalize( MAGNETIC_PLAYER_FORCE /diff.length);
+						body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
 					}
 				}
 				var contactDirections:Array = getContactDirections(body);
