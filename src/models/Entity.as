@@ -18,8 +18,9 @@ package models
 		
 		public function spawn():void 
 		{
-			pivotX = width/2
-			pivotY = height/2
+			pivotX = width/2;
+			pivotY = height/2;
+			updateView();
 		}
 		
 		public function updateView():void
@@ -30,12 +31,13 @@ package models
 		public function setPosition(pt:Point):void
 		{
 			_pos = pt;
+			updateView();
 		}
 		
 		public function setAngle(angle:Number):void
-		{
-			
+		{	
 			rotation = -angle;
+			updateView();
 		}
 		
 		public function getPosition():Point

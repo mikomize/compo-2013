@@ -90,7 +90,6 @@ package models
 		}
 		public function createStaticLine(start:Point,end:Point):b2Body
 		{
-			trace("creating static line",start.x,start.y,end.x,end.y);
 			var dir:Point = end.subtract(start);
 			dir.normalize(.5);
 			var right:Point = new Point(dir.y,-dir.x);
