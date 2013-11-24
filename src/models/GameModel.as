@@ -1,6 +1,7 @@
 package models
 {
 	
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
 	
