@@ -17,5 +17,20 @@ package maps
 		public function setAttrib(key:String, value:String):void{
 			_params[key] = value;
 		}
+		
+		public function get row():int
+		{
+			return int(getAttrib(TileTypes.ROW_ATTR));
+		}
+		
+		public function get col():int
+		{
+			return int(getAttrib(TileTypes.COLUMN_ATTR));
+		}
+		
+		public function get material():String
+		{
+			return getAttrib(TileTypes.MATERIAL_ATTR);
+		}
 	}
 }
