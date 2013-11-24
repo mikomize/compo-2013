@@ -9,6 +9,7 @@ package models
 	import Box2D.Dynamics.b2World;
 	
 	import flash.geom.Point;
+	import flash.net.drm.AddToDeviceGroupSetting;
 	
 	import maps.TileTypes;
 	
@@ -87,16 +88,91 @@ package models
 			groundBody.CreateShape(groundShapeDef);
 			return groundBody;
 		}
-		public function initialize():void
+		public function createStaticLine(start:Point,end:Point):b2Body
 		{
-			var worldAABB:b2AABB = new b2AABB();
-			worldAABB.lowerBound.Set(-10, -10);
-			worldAABB.upperBound.Set(10+getColsCount(), 10+getRowsCount());
-			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), false);
-			_world.SetContactListener(new PhysicsEngine1ContactListener());
-			for(var index:Number=0;index<2;++index)
-				_playerBodies.push(spawnPlayer(index));
+			trace("creating static line",start.x,start.y,end.x,end.y);
+			var dir:Point = end.subtract(start);
+			dir.normalize(.5);
+			var right:Point = new Point(dir.y,-dir.x);
 			
+			var nearStart:Point = start.add(dir).add(right);
+			var nearEnd:Point = end.subtract(dir).add(right);
+
+			var shapeDef:b2PolygonDef = new b2PolygonDef();
+			shapeDef.vertexCount = 4;
+			shapeDef.vertices[0].Set(start.x,start.y);
+			shapeDef.vertices[1].Set(nearStart.x,nearStart.y);
+			shapeDef.vertices[2].Set(nearEnd.x,nearEnd.y);
+			shapeDef.vertices[3].Set(end.x,end.y);
+			
+			var bodyDef:b2BodyDef = new b2BodyDef();
+			bodyDef.userData = new Object();
+			bodyDef.userData.type = "trapez";
+		
+			var body:b2Body = _world.CreateBody(bodyDef);
+			body.CreateShape(shapeDef);
+			return body;
+		}
+		private function isSolid(row:Number,col:Number):Boolean
+		{
+			return row<0 || col<0 || getRowsCount() <= row || getColsCount() <= col ||  _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;
+		}
+		private function createStatics():void
+		{
+			var rowsCount:Number = getRowsCount();
+			var colsCount:Number = getColsCount();
+			var row:Number;
+			var col:Number;
+			var colFirst:Number;
+			var rowFirst:Number;
+			//  podłogi
+			for(row=0;row<rowsCount;++row){
+				for(col=0;col<colsCount;++col){
+					colFirst=col;
+					for(;col<colsCount && isSolid(row-1,col) && !isSolid(row,col);++col){
+					}
+					if(colFirst<col){
+						createStaticLine(new Point(colFirst,row), new Point(col,row));
+					}
+				}
+			}
+			//sufity
+			for(row=0;row<rowsCount;++row){
+				for(col=0;col<colsCount;++col){
+					colFirst=col;
+					for(;col<colsCount && isSolid(row+1,col) && !isSolid(row,col);++col){
+					}
+					if(colFirst<col){
+						createStaticLine(new Point(col,row+1), new Point(colFirst,row+1));
+					}
+				}
+			}
+			//lewe ściany
+			for(col=0;col<colsCount;++col){
+				for(row=0;row<rowsCount;++row){
+					rowFirst=row;
+					for(;row<colsCount && isSolid(row,col-1) && !isSolid(row,col);++row){
+					}
+					if(rowFirst<row){
+						createStaticLine(new Point(col,row), new Point(col,rowFirst));
+					}
+				}
+			}
+			//prawe ściany
+			for(col=0;col<colsCount;++col){
+				for(row=0;row<rowsCount;++row){
+					rowFirst=row;
+					for(;row<colsCount && isSolid(row,col+1) && !isSolid(row,col);++row){
+					}
+					if(rowFirst<row){
+						createStaticLine(new Point(col+1,rowFirst), new Point(col+1,row));
+					}
+				}
+			}
+			
+		}
+		private function createStaticsOld():void
+		{
 			createStaticRect(-1,0,-1,getRowsCount()-1);
 			createStaticRect(getColsCount(),0,getColsCount(),getRowsCount()-1);
 			createStaticRect(0,-1,getColsCount()-1,-1);
@@ -114,7 +190,18 @@ package models
 					}
 				}
 			}
+		}
+		public function initialize():void
+		{
+			var worldAABB:b2AABB = new b2AABB();
+			worldAABB.lowerBound.Set(-10, -10);
+			worldAABB.upperBound.Set(10+getColsCount(), 10+getRowsCount());
+			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), false);
+			_world.SetContactListener(new PhysicsEngine1ContactListener());
+			for(var index:Number=0;index<2;++index)
+				_playerBodies.push(spawnPlayer(index));
 			
+			createStatics();	
 		}
 		
 		public function update(deltaTimeSeconds:Number):void
