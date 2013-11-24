@@ -12,7 +12,9 @@ package models
 		[Inject]
 		public var _gameAssets:GameAssets;
 		
-		private var polarity:int = 0
+		protected var polarity:int = 0
+			
+		protected var skins:Dictionary;
 		
 		public function PlayerA()
 		{
@@ -24,17 +26,33 @@ package models
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
 		}
 		
-		protected function getSkin():Image
+		protected function getSkin():Dictionary
 		{
 			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
-			return new Image(atlas.getTexture('k1')); 
-		}
-		
+			
+			skins = new Dictionary;
+			skins[-1] = new Image(atlas.getTexture('p1n'));
+			skins[0]  = new Image(atlas.getTexture('p1'));
+			skins[1]  =  new Image(atlas.getTexture('p1p'));
+			
+			return skins; 
+		}	
 		
 		override public function spawn():void
 		{
-			addChild(getSkin());
+			getSkin();
+			for each( var image:Image in skins){
+				addChild(image);
+			}
+			selectSkin();
 			super.spawn();
+		}
+		
+		public function selectSkin():void{
+			for each( var image:Image in skins){
+				image.visible = false;
+			}
+			skins[polarity].visible = true;
 		}
 		
 		public function getKeyMappings():Dictionary 
@@ -73,6 +91,7 @@ package models
 				var matched:int = getPolarityKeyMappings()[keyCode];
 				if (getPolarityKeyMappings().hasOwnProperty(keyCode)) {
 					polarity = getPolarityKeyMappings()[keyCode];
+					selectSkin();
 					break;
 				}
 			}

@@ -14,11 +14,17 @@ package models
 			super();
 		}
 		
-		override protected function getSkin():Image
+		override protected function getSkin():Dictionary
 		{
 			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
-			return new Image(atlas.getTexture('k2')); 
-		}
+			
+			skins = new Dictionary;
+			skins[-1] = new Image(atlas.getTexture('p2n'));
+			skins[0]  = new Image(atlas.getTexture('p2'));
+			skins[1]  =  new Image(atlas.getTexture('p2p'));
+			
+			return skins; 
+		}	
 		
 		override public function getKeyMappings():Dictionary 
 		{
