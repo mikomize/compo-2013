@@ -71,8 +71,8 @@ package models
 		{
 			for each(var keyCode:uint in _model.keyPressed) {
 				var matched:int = getPolarityKeyMappings()[keyCode];
-				if (matched) {
-					polarity = matched;
+				if (getPolarityKeyMappings().hasOwnProperty(keyCode)) {
+					polarity = getPolarityKeyMappings()[keyCode];
 					break;
 				}
 			}
