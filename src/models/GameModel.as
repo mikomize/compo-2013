@@ -19,14 +19,14 @@ package models
 		
 		public static const TILE_WIDTH:uint = 30;
 		public static const TILE_HEIGHT:uint = 30;
-		
+		public static const PARTICLE_COUNT:uint = 100;
 		
 		[Inject]
 		public var _injector:IInjector;
 		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
-		
+		public var particles:Vector.<Particle> = new Vector.<Particle>();
 		private var _playerA:PlayerA;
 		private var _playerB:PlayerB;
 		private var _tileManager:ITileManager;
@@ -101,12 +101,18 @@ package models
 			setParentJuggler(Starling.juggler);
 			start();
 			initTailModel();
-			initPhysics();
-			
 			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, (_tileManager.getRowsCount()) * TILE_HEIGHT));
 			_camera.attach();
+			var i:int;
+			for (i=0;i<PARTICLE_COUNT;++i){
+				var particle:Particle = new Particle();
+				particles.push(particle);
+				addEntity(particle);
+			}
+			initPhysics();
 			
-			for (var i:int =0;i<_tileManager.getColumsCount();i++) {
+			
+			for (i =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {
 					trace([j,i]);
 					var tile:Tile = _tileManager.getCell(j, i);

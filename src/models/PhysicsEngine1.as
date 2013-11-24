@@ -266,7 +266,7 @@ package models
 							dir = 1;
 						}
 						var otherPosition = _playerBodies[1-index].GetPosition();
-						var diff:Point = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
+						diff = new Point( otherPosition.x - position.x ,otherPosition.y - position.y);
 						diff.normalize( MAGNETIC_PLAYER_FORCE /diff.length);
 						body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
 					}
