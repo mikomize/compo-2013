@@ -2,6 +2,7 @@ package models
 {
 	
 	import flash.geom.Rectangle;
+	import flash.ui.Keyboard;
 	
 	import framework.Animated;
 	
@@ -58,20 +59,22 @@ package models
 			return _keyPressed;
 		}
 		
-		private var scrolled:Boolean = false;
 		
 		override public function advanceTime(time:Number):void {
 			super.advanceTime(time);
 			_physicsEngine.update(time);
 			
+
+			stickCameraToPlayer();
+		}
+		
+		private function stickCameraToPlayer():void 
+		{
 			var tmp:int = _playerA.y;
 			if (_playerB.y > tmp) {
 				tmp = _playerB.y;
 			}
-			if (!scrolled) {
-				_camera.stick(tmp);
-				scrolled = true;
-			}
+			_camera.stick(tmp);
 		}
 		
 		public function initPhysics():void {
@@ -127,6 +130,9 @@ package models
 		
 		private function keyDown(e:KeyboardEvent):void
 		{
+			if (e.keyCode == Keyboard.P) {
+				stickCameraToPlayer();
+			}
 			if (_keyPressed.indexOf(e.keyCode) == -1) {
 				_keyPressed.push(e.keyCode);
 			}
