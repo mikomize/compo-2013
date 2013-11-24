@@ -37,6 +37,9 @@ package models
 		[Inject]
 		public var _stage:Stage;
 		
+		[Inject]
+		public var _global:Global;
+		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		public var particles:Vector.<Particle> = new Vector.<Particle>();
@@ -112,8 +115,8 @@ package models
 			_physicsEngine.initialize();
 		}
 		
-		public function initTailModel(level:int):void {
-			_tileManager = new LevelManger().init(level);
+		public function initTailModel():void {
+			_tileManager = new LevelManger().init(_global.level);
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -125,14 +128,14 @@ package models
 		}
 		
 		
-		public function init(level:int):GameModel
+		public function init():GameModel
 		{
 			
 			bindKeys();
 			
 			setParentJuggler(Starling.juggler);
 			start();
-			initTailModel(level);
+			initTailModel();
 			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, (_tileManager.getRowsCount()) * TILE_HEIGHT));
 			_camera.attach(_stage);
 			
@@ -169,6 +172,9 @@ package models
 		
 		private function keyDown(e:KeyboardEvent):void
 		{
+			if (e.keyCode == Keyboard.P) {
+				stickCameraToPlayer();
+			}
 			if (_keyPressed.indexOf(e.keyCode) == -1) {
 				_keyPressed.push(e.keyCode);
 			}

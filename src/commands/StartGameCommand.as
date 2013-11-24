@@ -1,6 +1,5 @@
 package commands
 {
-	import events.StartGameEvent;
 	
 	import models.GameModel;
 	
@@ -16,12 +15,8 @@ package commands
 	public class StartGameCommand extends Command
 	{
 		
-		private var _level:int
 		[Inject]
 		public var _injector:IInjector;
-		
-//		[Inject]
-//		public var _event:StartGameEvent;
 		
 		public function StartGameCommand()
 		{
@@ -35,7 +30,7 @@ package commands
 			}
 			var model:GameModel = _injector.instantiateUnmapped(GameModel);
 			_injector.map(GameModel).toValue(model);
-			model.init(_level);
+			model.init();
 			trace([Starling.current.viewPort, Starling.current.stage.bounds]);
 		}
 	}

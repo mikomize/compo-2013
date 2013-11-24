@@ -2,8 +2,6 @@ package models
 {
 	import bootstrap.FSM;
 	
-	import events.StartGameEvent;
-	
 	import flash.events.IEventDispatcher;
 	import flash.sampler.NewObjectSample;
 	
@@ -29,6 +27,9 @@ package models
 		[Inject]
 		public var _stage:Stage;
 		
+		[Inject]
+		public var _global:Global;
+		
 		public function LevelSelector()
 		{
 		}
@@ -42,7 +43,8 @@ package models
 		}
 		protected function onClick():void{
 			dispose();
-			eventDispatcher.dispatchEvent(new StartGameEvent(StateEvent.ACTION, FSM.START_GAME, 1));
+			_global.level = 0;
+			eventDispatcher.dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START_GAME));
 		}
 		
 		protected function dispose():void{

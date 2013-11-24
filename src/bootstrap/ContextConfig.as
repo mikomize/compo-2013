@@ -6,6 +6,7 @@ package bootstrap
 	import flash.events.IEventDispatcher;
 	
 	import models.GameAssets;
+	import models.Global;
 	import models.Stage;
 	
 	import org.robotlegs.utilities.statemachine.FSMInjector;
@@ -38,6 +39,7 @@ package bootstrap
 			_commandMap.map(FSM.SELECTOR_STARTED_EVENT).toCommand(LevelSelectorCommand);
 			_injector.map(GameAssets).asSingleton();
 			_injector.map(Stage).asSingleton();
+			_injector.map(Global).asSingleton();
 			setUpFSM();
 		}
 		
