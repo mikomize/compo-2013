@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="30" tileheight="30">
+ <properties>
+  <property name="phisicsEngineVersion" value="qbolectweakedbymiko"/>
+ </properties>
  <tileset firstgid="1" name="Wood" tilewidth="30" tileheight="30">
   <properties>
    <property name="material" value="wood"/>
@@ -504,7 +507,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="3"/>
+   <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>

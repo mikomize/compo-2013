@@ -24,6 +24,11 @@ package models
 			skins[1]  =  new Image(atlas.getTexture('p2p')); 
 		}	
 		
+		override public function get playerName():String
+		{
+			return "B";
+		}	
+		
 		override public function getKeyMappings():Dictionary 
 		{
 			var t:Dictionary = new Dictionary;

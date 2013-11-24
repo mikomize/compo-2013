@@ -9,6 +9,8 @@ package maps
 		
 		function getCell(row:int, column:int):Tile;
 		
+		function getPhisicsEngineVersion():String;
+		
 		function serialize():String;
 		
 		function deserialize(json:Object):ITileManager;
