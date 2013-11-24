@@ -87,7 +87,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(0);
+			_tileManager = new LevelManger().init(1);
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -139,9 +139,6 @@ package models
 		
 		private function keyDown(e:KeyboardEvent):void
 		{
-			if (e.keyCode == Keyboard.P) {
-				stickCameraToPlayer();
-			}
 			if (_keyPressed.indexOf(e.keyCode) == -1) {
 				_keyPressed.push(e.keyCode);
 			}

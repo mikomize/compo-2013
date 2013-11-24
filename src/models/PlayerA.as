@@ -66,9 +66,8 @@ package models
 		public function getPolarityKeyMappings():Dictionary 
 		{
 			var t:Dictionary = new Dictionary;
-			t[Keyboard.C] = -1;
-			t[Keyboard.V] = 0;
-			t[Keyboard.B] = 1;
+			t[Keyboard.R] = -1;
+			t[Keyboard.T] = 1;
 			return t;
 		}
 		
@@ -85,9 +84,12 @@ package models
 		}
 		public function getPolarity():int
 		{
+			polarity = 0;
+			selectSkin();
 			for each(var keyCode:uint in _model.keyPressed) {
+				
 				var matched:int = getPolarityKeyMappings()[keyCode];
-				if (getPolarityKeyMappings().hasOwnProperty(keyCode)) {
+				if (matched) {
 					polarity = getPolarityKeyMappings()[keyCode];
 					selectSkin();
 					break;
