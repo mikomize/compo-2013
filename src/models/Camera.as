@@ -41,10 +41,15 @@ package models
 			_canvas.addChild(obj);
 		}
 		
-		public function attach():void
+		public function attach(stage:Stage):void
 		{
-			Starling.current.stage.addChild(_viewport);
+			stage.addChild(_viewport);
 		}
+		public function detach():void
+		{
+			_viewport.removeFromParent(true);
+		}
+		
 		
 		public function set y(val:int):void 
 		{

@@ -3,6 +3,8 @@ package bootstrap
 	import flash.display.Sprite;
 	import flash.events.IEventDispatcher;
 	
+	import models.Stage;
+	
 	import org.robotlegs.utilities.statemachine.StateEvent;
 	
 	import robotlegs.bender.bundles.mvcs.MVCSBundle;
@@ -10,6 +12,7 @@ package bootstrap
 	import robotlegs.bender.framework.api.IContext;
 	import robotlegs.bender.framework.impl.Context;
 	
+	import starling.core.Starling;
 	import starling.display.Sprite;
 	
 	
@@ -25,8 +28,8 @@ package bootstrap
 				.configure(ContextConfig, new ContextView(new flash.display.Sprite()));
 			_context.initialize();
 			
-			(_context.injector.getInstance(IEventDispatcher) as IEventDispatcher).dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START));
-
+			(_context.injector.getInstance(IEventDispatcher) as IEventDispatcher).dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.LEVEL_SELECT));
+			Starling.current.stage.addChild(_context.injector.getInstance(Stage) as Stage);
 		}
 	}
 }

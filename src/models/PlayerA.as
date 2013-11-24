@@ -4,11 +4,18 @@ package models
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
+	import maps.TileTypes;
+	
 	import starling.display.Image;
 	import starling.textures.TextureAtlas;
 
 	public class PlayerA extends Entity
 	{
+		
+		public static const STATE_PLAY = 0;
+		public static const STATE_DEATH = 1;
+		public static const STATE_WIN = 2;
+		
 		[Inject]
 		public var _gameAssets:GameAssets;
 		
@@ -16,15 +23,32 @@ package models
 			
 		protected var skins:Dictionary;
 		
+		protected var _state:int = PlayerA.STATE_DEATH;
+		
 		public function PlayerA()
 		{
 			super();
 		}
+
+		public function get state():int
+		{
+			return _state;
+		}
+
 		override public function updateView():void
 		{
 			x = _pos.x*GameModel.TILE_WIDTH;
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
+			if(_model.tileManager.getCell(_model.tileManager.getRowsCount() - 1 - Math.floor(_pos.y),Math.floor(_pos.x)).getAttrib(TileTypes.FINISH_POINT_ATTR)){
+				_state = PlayerA.STATE_WIN;
+				_model.hud.playerWin(playerName);
+			}
 		}
+		
+		public function get playerName():String
+		{
+			return "A";
+		}	
 		
 		protected function setSkin():void
 		{
@@ -44,6 +68,7 @@ package models
 			}
 			selectSkin();
 			super.spawn();
+			_state = PlayerA.STATE_PLAY;
 		}
 		
 		public function selectSkin():void{

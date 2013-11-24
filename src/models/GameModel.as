@@ -1,6 +1,9 @@
 package models
 {
 	
+	import bootstrap.FSM;
+	
+	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
@@ -9,6 +12,8 @@ package models
 	
 	import maps.ITileManager;
 	import maps.Tile;
+	
+	import org.robotlegs.utilities.statemachine.StateEvent;
 	
 	import robotlegs.bender.framework.api.IInjector;
 	
@@ -25,6 +30,12 @@ package models
 		[Inject]
 		public var _injector:IInjector;
 		
+		[Inject]
+		public var eventDispatcher:IEventDispatcher;
+		
+		[Inject]
+		public var _stage:Stage;
+		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
 		public var particles:Vector.<Particle> = new Vector.<Particle>();
@@ -34,7 +45,14 @@ package models
 		
 		private var _camera:Camera;
 		
+		private var _hud:Hud;
 		
+		
+		public function get hud():Hud
+		{
+			return _hud;
+		}
+
 		public function get tileManager():ITileManager
 		{
 			return _tileManager;
@@ -65,6 +83,7 @@ package models
 			super.advanceTime(time);
 			_physicsEngine.update(time);
 			stickCameraToPlayer();
+			finishCheck();
 		}
 		
 		private function stickCameraToPlayer():void 
@@ -74,6 +93,14 @@ package models
 				tmp = _playerB.y;
 			}
 			_camera.stick(tmp);
+		}
+		
+		private function finishCheck():void {
+			if(playerA.state == PlayerA.STATE_WIN && playerB.state == PlayerA.STATE_WIN)
+			{
+				dispose();
+				eventDispatcher.dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.FINISH));
+			}
 		}
 		
 		public function initPhysics():void {
@@ -103,7 +130,11 @@ package models
 			start();
 			initTailModel();
 			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, (_tileManager.getRowsCount()) * TILE_HEIGHT));
-			_camera.attach();
+			_camera.attach(_stage);
+			
+			_hud = new Hud(Starling.current.viewPort);
+			_hud.attach(_stage);
+			
 			var i:int;
 			for (i=0;i<PARTICLE_COUNT;++i){
 				var particle:Particle = new Particle();
@@ -164,6 +195,8 @@ package models
 		
 		public function dispose():void
 		{
+			_hud.removeFromParent(true);
+			_camera.detach();
 			stop();
 			unbindKeys();
 		}
