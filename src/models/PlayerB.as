@@ -22,7 +22,7 @@ package models
 			skins[-1] = new Image(atlas.getTexture('p2n'));
 			skins[0]  = new Image(atlas.getTexture('p2'));
 			skins[1]  =  new Image(atlas.getTexture('p2p')); 
-		}	
+		}
 		
 		override public function get playerName():String
 		{
@@ -42,8 +42,7 @@ package models
 		override public function getPolarityKeyMappings():Dictionary 
 		{
 			var t:Dictionary = new Dictionary;
-			t[Keyboard.P] = -1;
-			t[Keyboard.LEFTBRACKET] = 0;
+			t[Keyboard.LEFTBRACKET] = -1;
 			t[Keyboard.RIGHTBRACKET] = 1;
 			return t;
 		}
