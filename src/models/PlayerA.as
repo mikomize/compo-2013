@@ -26,7 +26,7 @@ package models
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
 		}
 		
-		protected function getSkin():Dictionary
+		protected function setSkin():void
 		{
 			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
 			
@@ -34,13 +34,11 @@ package models
 			skins[-1] = new Image(atlas.getTexture('p1n'));
 			skins[0]  = new Image(atlas.getTexture('p1'));
 			skins[1]  =  new Image(atlas.getTexture('p1p'));
-			
-			return skins; 
 		}	
 		
 		override public function spawn():void
 		{
-			getSkin();
+			setSkin();
 			for each( var image:Image in skins){
 				addChild(image);
 			}
