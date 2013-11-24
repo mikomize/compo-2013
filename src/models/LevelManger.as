@@ -17,6 +17,8 @@ package models
 		[Embed(source="../../maps/level_1.json",mimeType="application/octet-stream")]
 		private var level_1:Class;
 		
+		[Embed(source="../../maps/miko.json",mimeType="application/octet-stream")]
+		private var miko:Class;
 		
 		[Inject]
 		public var _gameAssets:GameAssets;
@@ -33,6 +35,8 @@ package models
 					return loadMaps(level_0);
 				case 1:
 					return loadMaps(level_1);
+				case 2:
+					return loadMaps(miko);
 				default:
 					return null;
 			}
@@ -44,6 +48,7 @@ package models
 			var textures:Dictionary = new Dictionary();
 			textures[0] = atlas.getTexture('main');
 			textures[1] = atlas.getTexture('level_1');
+			textures[2] = atlas.getTexture('main');
 			
 			return textures;
 		}

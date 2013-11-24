@@ -27,7 +27,7 @@ package models
 		
 		public function playerWin(player:String):void
 		{
-			_winLabel.text = "PLAYER "+player+" WIN";
+			_winLabel.text = "PLAYER "+player+" WON";
 		}
 	}
 }

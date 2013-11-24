@@ -22,15 +22,23 @@ package models
 		private var _world:b2World;
 		
 		private var _unprocessedTime: Number = 0;
-		private var _FRAME_DURATION : Number = 1.0/60;
+		private var _FRAME_DURATION : Number = 1.0/30;
 		protected var _playerBodies: Vector.<b2Body> = new Vector.<b2Body>();
+		private var _particleBodies: Vector.<b2Body> = new Vector.<b2Body>();
+
+		private var particleSpawingPoints : Vector.<Point> = new Vector.<Point>();
+		private var knownParticleSpawningPoints : Vector.<Point> = new Vector.<Point>();
+		private var savedParticlePolarities: Vector.<Number> = new Vector.<Number>();
+		private var savedParticlePaths : Vector.<Vector.<b2Vec2> > = new Vector.<Vector.<b2Vec2> >();
 		
 		protected static const FLY_FORCE:Number = 10;
 		protected static const WALK_FORCE:Number = 20;
 		protected static const FORBID_JUMP_VELOCITY:Number = 0.01;
 		private static const MAGNETIC_BRICK_FORCE:Number = 50;
 		private static const MAGNETIC_PLAYER_FORCE:Number = 200;
-		
+		private static const KILL_PARTICLES_PER_FRAME:uint = 1;
+		private static const PARTICLE_GRID_RADIUS:uint = 4;
+
 		
 		protected function getPlayerFriction():Number
 		{
@@ -197,19 +205,40 @@ package models
 				_playerBodies.push(spawnPlayer(index));
 			
 			createStatics();
+			initParticlesSpawningPoints();
 			createParticles();
 		}
-		private function getRandomParticleSpawnPosition():Point
+		
+		private function initParticlesSpawningPoints():void
 		{
-			while(true){
-				var col:Number = Math.floor(Math.random()*getColsCount());
-				var row:Number = Math.floor(Math.random()*getRowsCount());
-				if(!isSolid(row,col)){
-					return new Point(col,row);
+			//TODO: optimize to linear time
+			var rowsCount:Number = getRowsCount();
+			var colsCount:Number = getColsCount();
+			var row:Number;
+			var col:Number;
+			//  podłogi
+			for(row=0;row<rowsCount;row+=2){
+				for(col=0;col<colsCount;col+=2){
+					if(!isSolid(row,col) && isNearMagnet(row,col)){
+					 	particleSpawingPoints.push(new Point(col+.5,row+.5));
+						particleSpawingPoints.push(new Point(col+.5,row+.5));
+					}
 				}
 			}
-			return null;//WTF compilator.
 		}
+		private function isNearMagnet(row:Number,col:Number):Boolean{
+			for(var r:int = Math.max(0,row-PARTICLE_GRID_RADIUS);r< Math.min(getRowsCount(), row+1+PARTICLE_GRID_RADIUS);++r){
+				for(var c:int = Math.max(0,col-PARTICLE_GRID_RADIUS);c< Math.min(getColsCount(), col+1+PARTICLE_GRID_RADIUS);++c){
+					var material:String = _model.tileManager.getCell(getRowsCount()-1-r,c).getAttrib(TileTypes.MATERIAL_ATTR);
+					if(material == TileTypes.METAL || material == TileTypes.POSITIVE || material == TileTypes.NEGATIVE){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		private var scouts = 0;
+		private static const MAX_SCOUTS:uint = 5;
 		
 		private function createParticles():void
 		{
@@ -218,8 +247,6 @@ package models
 			for(var i:uint=0;i<_model.particles.length;++i){
 				
 				var bodyDef:b2BodyDef = new b2BodyDef();
-				var position:Point = getRandomParticleSpawnPosition();
-				bodyDef.position.Set(position.x,position.y);
 				bodyDef.userData = new Object();
 				bodyDef.userData.type = "particle";
 				
@@ -227,12 +254,14 @@ package models
 				
 				body.SetMass(massData);
 				
-				
+				_particleBodies.push(body);
+				killParticle(i);
 			}
 		}
 		
 		public function update(deltaTimeSeconds:Number):void
 		{	
+			pairs=0;
 			_unprocessedTime += deltaTimeSeconds;
 			while(_FRAME_DURATION < _unprocessedTime){
 				_step();
@@ -246,6 +275,7 @@ package models
 					getPlayer(index).setPosition(new Point(position.x,position.y));
 				}
 			}
+			updateParticles();
 		}
 		protected var DX :Array= new Array(-1,0,1,0);
 		protected var DY :Array= new Array(0,1,0,-1);
@@ -304,9 +334,36 @@ package models
 				}
 			}
 		}
+		private function updateParticles():void{
+			for(var i:uint=0;i<_model.particles.length;++i){
+				var data = _particleBodies[i].GetUserData();
+				var position:b2Vec2= data.kind == 'replay' ? savedParticlePaths[data.which][Math.max(0,data.frame-1)]   : _particleBodies[i].GetPosition() ;
+				_model.particles[i].setPosition(new Point(position.x,position.y));
+			}
+			
+		}
+		private var pairs:uint=0;
 		private function _processMagnetism():void
 		{
-			if(getPlayer(0).getPolarity()||getPlayer(1).getPolarity()){
+			var particle_grid:Array = new Array();
+			for (var j:uint=0;j<_particleBodies.length;++j){
+				var body:b2Body = _particleBodies[j];
+				if(body.GetUserData().kind != 'scout'){
+					continue;
+				}
+				var position:b2Vec2 = body.GetPosition(); 
+				var gx:int = Math.floor(position.x/PARTICLE_GRID_RADIUS);
+				var gy:int = Math.floor(position.y/PARTICLE_GRID_RADIUS);
+				if(!(gx in particle_grid)){
+					particle_grid[gx]=new Array();
+				}
+				if(!(gy in particle_grid[gx])){
+					particle_grid[gx][gy]=new Array();
+				}
+				particle_grid[gx][gy].push(j);
+			}
+			
+			if(true||getPlayer(0).getPolarity()||getPlayer(1).getPolarity()){
 				var colsCount:Number = getColsCount();
 				var rowsCount:Number = getRowsCount();
 				//TODO: może by tak stablicować sobie te tile które są z metalu?
@@ -326,18 +383,57 @@ package models
 						for(var index:uint=0;index<2;++index){
 							var polarity:int = getPlayer(index).getPolarity();
 							if(polarity){
-								var body:b2Body = _playerBodies[index];
-								var position:b2Vec2=body.GetPosition();
+								body = _playerBodies[index];
+								position=body.GetPosition();
 								
 								var diff:Point = new Point( col+.5 - position.x ,row+.5 - position.y);
 								diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
 								
 								var dir:Number = polarity==flip ? -1:1;
-							
+								
 								body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
-					
+								
 							}
 						}
+						var bx:int = Math.floor( (col+.5)/PARTICLE_GRID_RADIUS);
+						var by:int = Math.floor( (row+.5)/PARTICLE_GRID_RADIUS);
+						pairs++;
+						var force:b2Vec2 = new b2Vec2();
+						for(var dx:int=-1;dx<=1;++dx){
+							pairs++;
+							for(var dy:int=-1;dy<=1;++dy){
+								pairs++;
+								gx = bx+dx;
+								gy = by+dy;
+								if(particle_grid[gx] && particle_grid[gx][gy]){
+									for each (index in particle_grid[gx][gy]){
+										pairs++;
+										
+										body = _particleBodies[index];
+										polarity =  body.GetUserData().polarity;
+										position =body.GetPosition();
+										
+										//diff = new Point( col+.5 - position.x ,row+.5 - position.y);
+										var diff_x :Number= col+.5 - position.x;
+										var diff_y :Number= row+.5 - position.y;
+										var len2 :Number= diff_x*diff_x + diff_y*diff_y;
+										dir= polarity==flip ? -1:1;
+										diff_x = diff_x * MAGNETIC_BRICK_FORCE * dir / len2;
+										diff_y = diff_y * MAGNETIC_BRICK_FORCE * dir / len2;
+										
+										force.x = diff_x;
+										force.y = diff_y;
+										body.ApplyForce(force,position);
+										
+										/*
+										diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
+										
+										*/
+									}
+								}
+							}
+						}
+						
 					}
 				}
 			}
@@ -366,6 +462,70 @@ package models
 			}
 			
 		}
+		private function killParticle(index:Number):void
+		{
+			if(_particleBodies[index].GetUserData().kind == 'scout'){
+				scouts --;
+				knownParticleSpawningPoints.push(_particleBodies[index].GetUserData().start);
+				savedParticlePaths.push(_particleBodies[index].GetUserData().path);
+				savedParticlePolarities.push(_particleBodies[index].GetUserData().polarity);
+				_particleBodies[index].GetUserData().path = null;
+				_particleBodies[index].GetUserData().start = null;
+				
+			}
+			_particleBodies[index].GetUserData().kind = null;
+			var kind:String;
+			var position:Point ;
+			if(particleSpawingPoints.length && scouts < MAX_SCOUTS){
+				scouts++;
+				_particleBodies[index].GetUserData().polarity = -1+2*(particleSpawingPoints.length%2);
+				_model.particles[index].setPolarity(_particleBodies[index].GetUserData().polarity);
+				position = particleSpawingPoints.pop();
+				kind = 'scout';
+				trace ("spawn scout");
+				
+				_particleBodies[index].GetUserData().start = position;
+				_particleBodies[index].GetUserData().path = new Vector.<b2Vec2>();
+			}else if(knownParticleSpawningPoints.length){
+				
+				kind = 'replay';
+				trace ("spawn replay");
+				var i:uint = Math.floor(Math.random()*knownParticleSpawningPoints.length);
+				_model.particles[index].setPolarity(savedParticlePolarities[i]);
+				position = knownParticleSpawningPoints[i];
+				_particleBodies[index].GetUserData().which = i;
+				_particleBodies[index].GetUserData().frame = 0;
+			}else{
+				return;
+			}
+			_particleBodies[index].GetUserData().kind = kind;
+			_particleBodies[index].SetAngularVelocity(0);
+			_particleBodies[index].SetLinearVelocity(new b2Vec2(0,0));
+			_particleBodies[index].SetXForm(new b2Vec2(position.x,position.y),0);
+		}
+		private var currentParticle:uint=0;
+		private static const MAX_SAVED_PATH_LEN:uint = 60;
+		private function _killParticles():void
+		{
+			for(var i:uint=0;i<_particleBodies.length;++i){
+				var data = _particleBodies[i].GetUserData();
+				if(data.kind == 'scout'){
+					var position:b2Vec2=_particleBodies[i].GetPosition();
+					data.path.push(new b2Vec2(position.x,position.y));
+					if(isSolid(Math.floor(position.y),Math.floor(position.x)) || data.path.length >= MAX_SAVED_PATH_LEN ){
+						killParticle(i);
+					}
+				}else if(data.kind == 'replay'){
+					if(savedParticlePaths[data.which].length<=data.frame){
+						killParticle(i);
+					}else{
+						data.frame++;
+					}
+				}else{
+					killParticle(i);
+				}
+			}
+		}
 		private function _step():void
 		{
 			_processPlayersIntentions();
@@ -373,6 +533,7 @@ package models
 			_processPlayerMagnetism();
 			_world.Step(_FRAME_DURATION, 10);
 			_unprocessedTime -= _FRAME_DURATION;
+			_killParticles();
 		}
 	}
 }

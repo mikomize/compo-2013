@@ -3,8 +3,6 @@ package models
 	
 	import bootstrap.FSM;
 	
-	import feathers.display.TiledImage;
-	
 	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -21,16 +19,14 @@ package models
 	import robotlegs.bender.framework.api.IInjector;
 	
 	import starling.core.Starling;
-	import starling.display.Image;
 	import starling.events.KeyboardEvent;
-	import starling.textures.TextureAtlas;
 	
 	public class GameModel extends Animated
 	{
 		
 		public static const TILE_WIDTH:uint = 30;
 		public static const TILE_HEIGHT:uint = 30;
-		public static const PARTICLE_COUNT:uint = 100;
+		public static const PARTICLE_COUNT:uint = 200;
 		
 		[Inject]
 		public var _injector:IInjector;
@@ -46,9 +42,6 @@ package models
 		
 		[Inject]
 		public var _levelManger:LevelManger;
-		
-		[Inject]
-		public var _gameAssets:GameAssets;
 		
 		private var _entities:Vector.<Entity> = new Vector.<Entity>();
 		private var _physicsEngine:PhysicsEngineInterface;
@@ -104,9 +97,9 @@ package models
 		{
 			var tmp:int = _playerA.y;
 			if (_playerA.state == PlayerA.STATE_PLAY && _playerB.state == PlayerA.STATE_PLAY && _playerB.y > tmp) {
-				tmp = _playerB.y;
+			tmp = _playerB.y;
 			} else if(_playerA.state == PlayerA.STATE_PLAY ){
-				tmp = _playerA.y;
+			tmp = _playerA.y;
 			} else {
 				tmp = _playerB.y;
 			}
@@ -164,12 +157,6 @@ package models
 			}
 			initPhysics(tileManager.getPhisicsEngineVersion());
 			
-			if(_tileManager.getBg()){
-				var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
-				var image:TiledImage = new TiledImage(atlas.getTexture(_tileManager.getBg()))
-				image.height = _tileManager.getRowsCount() * TILE_HEIGHT;
-				_camera.add(image);
-			}
 			
 			for (i =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {

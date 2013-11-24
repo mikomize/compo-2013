@@ -42,7 +42,7 @@ package models
 			if (material == 'air') {
 				return;
 			}
-			setPosition(new Point(int(_tile.getAttrib(TileTypes.COLUMN_ATTR)), int(_tile.getAttrib(TileTypes.ROW_ATTR))));
+			setPosition(new Point(_tile.col, _tile.row));
 			var textures:Array = materials[material];
 			if (!textures) {
 				return;
