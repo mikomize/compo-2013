@@ -62,7 +62,7 @@ package models
 		public function setPolarity(value:int):void
 		{
 			polarity = value;
-			
+			selectSkin();
 		}
 	}
 }
