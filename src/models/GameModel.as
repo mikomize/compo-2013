@@ -4,6 +4,7 @@ package models
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
 	
 	import framework.Animated;
 	
@@ -77,7 +78,11 @@ package models
 		}
 		
 		public function initPhysics():void {
-			_physicsEngine = _injector.instantiateUnmapped(PhysicsEngine1);
+			var chosen:String = 'qbolectweakedbymiko';
+			var physics:Dictionary = new Dictionary();
+			physics['qbolec'] = PhysicsEngine1;
+			physics['qbolectweakedbymiko'] = PhysicsEngine2;
+			_physicsEngine = _injector.instantiateUnmapped(physics[chosen]);
 			_physicsEngine.initialize();
 		}
 		

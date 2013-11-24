@@ -1,16 +1,15 @@
 package models
 {
+	import flash.geom.Point;
+	
+	import Box2D.Collision.b2AABB;
 	import Box2D.Collision.Shapes.b2CircleDef;
 	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.Shapes.b2PolygonDef;
-	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
 	import Box2D.Dynamics.b2World;
-	
-	import flash.geom.Point;
-	import flash.net.drm.AddToDeviceGroupSetting;
 	
 	import maps.TileTypes;
 	
@@ -24,18 +23,45 @@ package models
 		
 		private var _unprocessedTime: Number = 0;
 		private var _FRAME_DURATION : Number = 1.0/60;
-		private var _playerBodies: Vector.<b2Body> = new Vector.<b2Body>();
+		protected var _playerBodies: Vector.<b2Body> = new Vector.<b2Body>();
 		
-		private static const FLY_FORCE:Number = 10;
-		private static const WALK_FORCE:Number = 20;
-		private static const JUMP_IMPULSE:Number = 45;
-		private static const FORBID_JUMP_VELOCITY:Number = 0.01;
+		protected static const FLY_FORCE:Number = 10;
+		protected static const WALK_FORCE:Number = 20;
+		protected static const FORBID_JUMP_VELOCITY:Number = 0.01;
 		private static const MAGNETIC_BRICK_FORCE:Number = 50;
 		private static const MAGNETIC_PLAYER_FORCE:Number = 200;
+		
+		
+		protected function getPlayerFriction():Number
+		{
+			return 0.3;
+		}
+		
+		protected function getTileFriction():Number
+		{
+			return 0.2;
+		}
+		
+		protected function getPlayerDampening():Number
+		{
+			return 0;
+		}
+		
+		protected function getGravity():b2Vec2
+		{
+			return new b2Vec2 (0.0, -9.81);
+		}
+			
+		protected function getPlayerJumpImpulse():Number
+		{
+			return 45;
+		}
+	
+		
 		public function PhysicsEngine1()
 		{
 		}
-		private function getPlayer(index:Number):PlayerA{
+		protected function getPlayer(index:Number):PlayerA{
 			return index?_model.playerB : _model.playerA;
 		}
 		private function getRowsCount():Number{
@@ -65,12 +91,14 @@ package models
 			bodyDef.userData.collisions = new Array(0,0,0,0);
 			var spawnPosition:Point = getSpawnPoint(index);
 			bodyDef.position.Set( spawnPosition.x,spawnPosition.y);
+			trace(bodyDef.linearDamping);
+			bodyDef.linearDamping  = getPlayerDampening();
 			var body:b2Body = _world.CreateBody(bodyDef);
 		
 			var shapeDef:b2CircleDef = new b2CircleDef();
 			shapeDef.radius = 1.0;
 			shapeDef.density = 4/Math.PI;//nie pytaj
-			shapeDef.friction = 0.3;
+			shapeDef.friction = getPlayerFriction();
 			body.CreateShape(shapeDef);
 			body.SetMassFromShapes();
 			return body;
@@ -90,6 +118,7 @@ package models
 			shapeDef.vertices[1].Set(nearStart.x,nearStart.y);
 			shapeDef.vertices[2].Set(nearEnd.x,nearEnd.y);
 			shapeDef.vertices[3].Set(end.x,end.y);
+			shapeDef.friction = getTileFriction();
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();
 			bodyDef.userData = new Object();
@@ -162,7 +191,7 @@ package models
 			var worldAABB:b2AABB = new b2AABB();
 			worldAABB.lowerBound.Set(-10, -10);
 			worldAABB.upperBound.Set(10+getColsCount(), 10+getRowsCount());
-			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), false);
+			_world = new b2World(worldAABB, getGravity(), false);
 			_world.SetContactListener(new PhysicsEngine1ContactListener());
 			for(var index:Number=0;index<2;++index)
 				_playerBodies.push(spawnPlayer(index));
@@ -214,11 +243,11 @@ package models
 				getPlayer(index).setPosition(new Point(position.x,position.y));
 			}
 		}
-		private var DX :Array= new Array(-1,0,1,0);
-		private var DY :Array= new Array(0,1,0,-1);
+		protected var DX :Array= new Array(-1,0,1,0);
+		protected var DY :Array= new Array(0,1,0,-1);
 		
 		
-		private function getContactDirections(body:b2Body):Array
+		protected function getContactDirections(body:b2Body):Array
 		{
 			var contactDirections:Array = new Array(false,false,false,false);
 			for(var d:Number=0;d<4;++d){
@@ -229,7 +258,7 @@ package models
 			return contactDirections;
 		}
 		
-		private function _processPlayersIntentions():void
+		protected function _processPlayersIntentions():void
 		{
 			
 			for(var index:Number=0;index<2;++index){
@@ -252,7 +281,7 @@ package models
 								//JUMP
 								var jumpVelocity:Number = velocity.x*dx + velocity.y*dy;
 								if(jumpVelocity < FORBID_JUMP_VELOCITY){
-									v.Multiply(JUMP_IMPULSE);
+									v.Multiply(getPlayerJumpImpulse());
 									body.ApplyImpulse(v,position);
 								}else{
 									trace("FORBIDEN JUMP");
