@@ -48,7 +48,9 @@ package models
 				return;
 			}
 			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
-			addChild(new Image(atlas.getTexture(textures[Math.floor(Math.random() * textures.length)]))); 
+			var group = (1<textures.length)? (1&(_tile.col^_tile.row)):0;
+			var id = Math.floor(Math.random() * Math.floor((textures.length+1-group)/2))*2+group;
+			addChild(new Image(atlas.getTexture(textures[id ]))); 
 		}
 	}
 }

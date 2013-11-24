@@ -58,7 +58,7 @@ package models
 		
 		public function stick(val:int):void
 		{
-			y = -val + _viewportSize.height / 2;
+			y = -val + _viewportSize.height * 3 / 4;
 		}
 		
 		public function get y():int
