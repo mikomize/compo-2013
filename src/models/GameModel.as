@@ -96,7 +96,11 @@ package models
 		private function stickCameraToPlayer():void 
 		{
 			var tmp:int = _playerA.y;
-			if (_playerB.y > tmp) {
+			if (_playerA.state == PlayerA.STATE_PLAY && _playerB.state == PlayerA.STATE_PLAY && _playerB.y > tmp) {
+			tmp = _playerB.y;
+			} else if(_playerA.state == PlayerA.STATE_PLAY ){
+			tmp = _playerA.y;
+			} else {
 				tmp = _playerB.y;
 			}
 			_camera.stick(tmp);

@@ -271,7 +271,11 @@ package models
 			for(var index:Number=0;index<2;++index){
 				var position:b2Vec2=_playerBodies[index].GetPosition();
 				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
-				getPlayer(index).setPosition(new Point(position.x,position.y));
+				if(getPlayer(index).state ==  PlayerA.STATE_WIN){
+					getPlayer(index).setPosition(new Point(-1,-1));
+				}else {
+					getPlayer(index).setPosition(new Point(position.x,position.y));
+				}
 			}
 			updateParticles();
 		}

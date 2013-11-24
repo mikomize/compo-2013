@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="32" height="24" tilewidth="30" tileheight="30">
  <properties>
-  <property name="phisicsEngineVersion" value="qbolec"/>
+  <property name="bg" value="BgMain"/>
+  <property name="phisicsEngineVersion" value="qbolectweakedbymiko"/>
  </properties>
  <tileset firstgid="1" name="Wood" tilewidth="30" tileheight="30">
   <properties>
