@@ -33,7 +33,9 @@ package models
 		{
 			var materials:Object = {
 				'wood': new Array('wood1', 'wood2', 'wood3', 'wood4', 'wood5', 'wood7'),
-				'metal': new Array('metal1', 'metalMinus', 'metalPlus')
+				'metal': new Array('metal1'),
+				'positive': new Array('metalPlus'),
+				'negative': new Array('metalMinus')
 			};
 			
 			var material:String = _tile.getAttrib('material');
