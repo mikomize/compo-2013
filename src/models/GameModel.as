@@ -157,13 +157,7 @@ package models
 			_hud = new Hud(Starling.current.viewPort);
 			_hud.attach(_stage);
 			
-			var i:int;
-			for (i=0;i<PARTICLE_COUNT;++i){
-				var particle:Particle = new Particle();
-				particles.push(particle);
-				addEntity(particle);
-			}
-			initPhysics(tileManager.getPhisicsEngineVersion());
+			
 			
 			if(_tileManager.getBg()){
 				var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
@@ -179,6 +173,14 @@ package models
 				}
 				_camera.add(image);
 			}
+			
+			var i:int;
+			for (i=0;i<PARTICLE_COUNT;++i){
+				var particle:Particle = new Particle();
+				particles.push(particle);
+				addEntity(particle);
+			}
+			initPhysics(tileManager.getPhisicsEngineVersion());
 			
 			for (i =0;i<_tileManager.getColumsCount();i++) {
 				for (var j:int =_tileManager.getRowsCount() - 1;j>=0;j--) {

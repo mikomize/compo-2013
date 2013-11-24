@@ -15,6 +15,7 @@
  "properties":
     {
      "bg":"BgMain",
+     "bgRepeat":"BgLevel1",
      "phisicsEngineVersion":"qbolectweakedbymiko"
     },
  "tileheight":30,
