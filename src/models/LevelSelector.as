@@ -2,6 +2,8 @@ package models
 {
 	import bootstrap.FSM;
 	
+	import events.StartGameEvent;
+	
 	import flash.events.IEventDispatcher;
 	import flash.sampler.NewObjectSample;
 	
@@ -40,7 +42,7 @@ package models
 		}
 		protected function onClick():void{
 			dispose();
-			eventDispatcher.dispatchEvent(new StateEvent(StateEvent.ACTION, FSM.START_GAME));
+			eventDispatcher.dispatchEvent(new StartGameEvent(StateEvent.ACTION, FSM.START_GAME, 1));
 		}
 		
 		protected function dispose():void{

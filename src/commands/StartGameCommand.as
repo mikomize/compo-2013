@@ -1,6 +1,10 @@
 package commands
 {
+	import events.StartGameEvent;
+	
 	import models.GameModel;
+	
+	import org.robotlegs.utilities.statemachine.StateEvent;
 	
 	import robotlegs.bender.bundles.mvcs.Command;
 	import robotlegs.bender.framework.api.IInjector;
@@ -12,9 +16,12 @@ package commands
 	public class StartGameCommand extends Command
 	{
 		
-		
+		private var _level:int
 		[Inject]
 		public var _injector:IInjector;
+		
+//		[Inject]
+//		public var _event:StartGameEvent;
 		
 		public function StartGameCommand()
 		{
@@ -28,7 +35,7 @@ package commands
 			}
 			var model:GameModel = _injector.instantiateUnmapped(GameModel);
 			_injector.map(GameModel).toValue(model);
-			model.init();
+			model.init(_level);
 			trace([Starling.current.viewPort, Starling.current.stage.bounds]);
 		}
 	}

@@ -112,8 +112,8 @@ package models
 			_physicsEngine.initialize();
 		}
 		
-		public function initTailModel():void {
-			_tileManager = new LevelManger().init(1);
+		public function initTailModel(level:int):void {
+			_tileManager = new LevelManger().init(level);
 		}
 		
 		public function addEntity(entity:Entity):void
@@ -125,14 +125,14 @@ package models
 		}
 		
 		
-		public function init():GameModel
+		public function init(level:int):GameModel
 		{
 			
 			bindKeys();
 			
 			setParentJuggler(Starling.juggler);
 			start();
-			initTailModel();
+			initTailModel(level);
 			_camera = new Camera(Starling.current.viewPort, new Rectangle(0, 0, _tileManager.getColumsCount() * TILE_WIDTH, (_tileManager.getRowsCount()) * TILE_HEIGHT));
 			_camera.attach(_stage);
 			
