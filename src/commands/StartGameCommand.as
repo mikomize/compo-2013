@@ -35,7 +35,7 @@ package commands
 			}
 			var model:GameModel = _injector.instantiateUnmapped(GameModel);
 			_injector.map(GameModel).toValue(model);
-			model.init(_level);
+			model.init(2);
 			trace([Starling.current.viewPort, Starling.current.stage.bounds]);
 		}
 	}

@@ -14,7 +14,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "phisicsEngineVersion":"qbolectweakedbymiko"
+     "phisicsEngineVersion":"qbolec"
     },
  "tileheight":30,
  "tilesets":[

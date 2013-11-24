@@ -150,6 +150,8 @@
         <array>
             <filename>tiles</filename>
             <filename>players</filename>
+            <filename>levels</filename>
+            <filename>particles</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
