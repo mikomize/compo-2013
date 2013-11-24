@@ -11,6 +11,8 @@ package maps
 		
 		function getPhisicsEngineVersion():String;
 		
+		function getBg():String
+		
 		function serialize():String;
 		
 		function deserialize(json:Object):ITileManager;

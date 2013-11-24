@@ -11,9 +11,17 @@ package maps
 		
 		private var _phisicsEngineVersion:String;
 		
+		private var _bg:String;
+		
 		public function TileManagerV1():void
 		{
 		}
+
+		public function getBg():String
+		{
+			return _bg;
+		}
+
 		public function getRowsCount():int{
 			return rows;
 		}
@@ -23,7 +31,9 @@ package maps
 		}
 		
 		public function getCell(row:int, column:int):Tile{
-			return map[row][column];
+			if(map[row] !== undefined && map[row][column] !== undefined)
+				return map[row][column];
+			return null;
 		}
 		
 		public function serialize():String{
@@ -69,6 +79,9 @@ package maps
 				}	
 			}
 			_phisicsEngineVersion = json.properties.phisicsEngineVersion;
+			if(json.properties.hasOwnProperty('bg')){
+				_bg = json.properties.bg;
+			}
 			return this;
 		}
 		

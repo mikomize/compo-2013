@@ -1,15 +1,15 @@
 package models
 {
-	import flash.geom.Point;
-	
-	import Box2D.Collision.b2AABB;
 	import Box2D.Collision.Shapes.b2CircleDef;
 	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.Shapes.b2PolygonDef;
+	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
 	import Box2D.Dynamics.b2World;
+	
+	import flash.geom.Point;
 	
 	import maps.TileTypes;
 	
@@ -240,7 +240,11 @@ package models
 			for(var index:Number=0;index<2;++index){
 				var position:b2Vec2=_playerBodies[index].GetPosition();
 				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
-				getPlayer(index).setPosition(new Point(position.x,position.y));
+				if(getPlayer(index).state ==  PlayerA.STATE_WIN){
+					getPlayer(index).setPosition(new Point(-1,-1));
+				}else {
+					getPlayer(index).setPosition(new Point(position.x,position.y));
+				}
 			}
 		}
 		protected var DX :Array= new Array(-1,0,1,0);

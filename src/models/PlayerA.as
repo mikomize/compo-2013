@@ -42,7 +42,8 @@ package models
 		{
 			x = _pos.x*GameModel.TILE_WIDTH;
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-_pos.y*GameModel.TILE_HEIGHT;
-			if(_model.tileManager.getCell(_model.tileManager.getRowsCount() - 1 - Math.floor(_pos.y),Math.floor(_pos.x)).getAttrib(TileTypes.FINISH_POINT_ATTR)){
+			if(_model.tileManager.getCell(_model.tileManager.getRowsCount() - 1 - Math.floor(_pos.y),Math.floor(_pos.x)) &&
+				_model.tileManager.getCell(_model.tileManager.getRowsCount() - 1 - Math.floor(_pos.y),Math.floor(_pos.x)).getAttrib(TileTypes.FINISH_POINT_ATTR)){
 				_state = PlayerA.STATE_WIN;
 				_model.hud.playerWin(playerName);
 			}
