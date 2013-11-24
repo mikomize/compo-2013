@@ -12,7 +12,7 @@ package models
 		[Inject]
 		public var _gameAssets:GameAssets;
 		
-		private var polarity:int
+		private var polarity:int = 0
 		
 		public function PlayerA()
 		{
@@ -47,6 +47,15 @@ package models
 			return t;
 		}
 		
+		public function getPolarityKeyMappings():Dictionary 
+		{
+			var t:Dictionary = new Dictionary;
+			t[Keyboard.C] = -1;
+			t[Keyboard.V] = 0;
+			t[Keyboard.B] = 1;
+			return t;
+		}
+		
 		public function getIntendedDirection():Point
 		{
 			var tmp:Point = new Point(0, 0);
@@ -58,10 +67,17 @@ package models
 			}
 			return tmp;
 		}
-		
 		public function getPolarity():int
 		{
-			return 1;
+			for each(var keyCode:uint in _model.keyPressed) {
+				var matched:int = getPolarityKeyMappings()[keyCode];
+				if (matched) {
+					polarity = matched;
+					break;
+				}
+			}
+			
+			return polarity;
 		}
 	}
 }

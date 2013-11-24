@@ -29,5 +29,14 @@ package models
 			t[Keyboard.L] = new Point(1, 0);
 			return t;
 		}
+		
+		override public function getPolarityKeyMappings():Dictionary 
+		{
+			var t:Dictionary = new Dictionary;
+			t[Keyboard.P] = -1;
+			t[Keyboard.LEFTBRACKET] = 0;
+			t[Keyboard.RIGHTBRACKET] = 1;
+			return t;
+		}
 	}
 }
