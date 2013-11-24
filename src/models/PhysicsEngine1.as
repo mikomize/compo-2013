@@ -273,8 +273,7 @@ package models
 				var position:b2Vec2=_playerBodies[index].GetPosition();
 				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
 				if(getPlayer(index).state ==  PlayerA.STATE_WIN){
-					getPlayer(index).setPosition(new Point(-1,-1));
-					_model.shadows[index].setPosition(new Point(-1,-1));
+					_playerBodies[index].SetXForm(new b2Vec2(-1,-1),0)
 				}else {
 					getPlayer(index).setPosition(new Point(position.x,position.y));
 					var row = Math.floor(position.y);
