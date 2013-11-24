@@ -26,7 +26,7 @@ package models
 		
 		public static const TILE_WIDTH:uint = 30;
 		public static const TILE_HEIGHT:uint = 30;
-		public static const PARTICLE_COUNT:uint = 100;
+		public static const PARTICLE_COUNT:uint = 200;
 		
 		[Inject]
 		public var _injector:IInjector;
@@ -113,7 +113,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(1);
+			_tileManager = new LevelManger().init(0);
 		}
 		
 		public function addEntity(entity:Entity):void

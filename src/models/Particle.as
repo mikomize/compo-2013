@@ -48,10 +48,7 @@ package models
 		}
 		
 		public function selectSkin():void{
-			for each( var image:DisplayObject in skins){
-				image.visible = false;
-			}
-			
+			skins[-polarity].visible = false;
 			skins[polarity].visible = true;
 		}
 		
@@ -62,8 +59,9 @@ package models
 		
 		public function setPolarity(value:int):void
 		{
-			polarity = value;
-			selectSkin();
+				polarity = value;
+				selectSkin();
+			
 		}
 	}
 }
