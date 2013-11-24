@@ -29,6 +29,7 @@ package models
 		private static const WALK_FORCE:Number = 20;
 		private static const JUMP_IMPULSE:Number = 45;
 		private static const FORBID_JUMP_VELOCITY:Number = 0.01;
+		private static const MAGNETIC_BRICK_FORCE:Number = 50;
 		public function PhysicsEngine1()
 		{
 		}
@@ -213,23 +214,6 @@ package models
 		private var DX :Array= new Array(-1,0,1,0);
 		private var DY :Array= new Array(0,1,0,-1);
 		
-		private function getEmulatedContactDirections(body:b2Body):Array
-		{
-			var contactDirections:Array = new Array(false,false,false,false);
-			var pos:b2Vec2 = body.GetPosition();
-			for(var d:Number=0;d<4;++d){
-				var dx:Number=DX[d];
-				var dy:Number=DY[d];
-				var probe_x:Number = pos.x+dx;
-				var probe_y:Number = pos.y+dy;
-				var row:Number = Math.floor(probe_y);
-				var col:Number = Math.floor(probe_x);
-				
-				contactDirections[d] =  row<0 || col<0 || row>=getRowsCount() || col>=getColsCount() ||  _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;
-			}
-			return contactDirections;
-		}
-		
 		
 		private function getContactDirections(body:b2Body):Array
 		{
@@ -250,10 +234,31 @@ package models
 				var velocity:b2Vec2=body.GetLinearVelocity();
 				var player:PlayerA = this.getPlayer(index);
 				var direction:Point = player.getIntendedDirection();
-				var contactDirections:Array = getContactDirections(body);
-				if(index==0){
-					//trace("player " + index,contactDirections);
+				var polarity:Number = player.getPolarity();
+				if(polarity){
+					var colsCount:Number = getColsCount();
+					var rowsCount:Number = getRowsCount();
+					//TODO: może by tak stablicować sobie te tile które są z metalu?
+					for(var col:Number=0;col<colsCount;++col){
+						for(var row:Number=0;row<rowsCount;++row){
+							var material:String = _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR);
+							var dir:int = 0;
+							if(material == TileTypes.POSITIVE){
+								dir = -polarity;
+							}else if(material == TileTypes.NEGATIVE){
+								dir = polarity;
+							}else if(material == TileTypes.METAL){
+								dir = 1;
+							}
+							if(dir){
+								var diff:Point = new Point( col+.5 - position.x ,row+.5 - position.y);
+								diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
+								body.ApplyForce(new b2Vec2(dir*diff.x,dir*diff.y),position);
+							}
+						}
+					}
 				}
+				var contactDirections:Array = getContactDirections(body);
 				if(direction.x || direction.y){
 					for(var d:Number=0;d<4;++d){
 						var dx:Number=DX[d];
@@ -266,9 +271,7 @@ package models
 							if(contactDirections[(d+2)%4]){
 								//JUMP
 								var jumpVelocity:Number = velocity.x*dx + velocity.y*dy;
-								trace("jumpVelocity",jumpVelocity);
 								if(jumpVelocity < FORBID_JUMP_VELOCITY){
-									trace("JUMP");
 									v.Multiply(JUMP_IMPULSE);
 									body.ApplyImpulse(v,position);
 								}else{
@@ -276,12 +279,10 @@ package models
 								}
 							}else if(contactDirections[(d+1)%4] || contactDirections[(d+3)%4]){
 								//WALK
-								//trace("WALK");
 								v.Multiply(WALK_FORCE);
 								body.ApplyForce(v,position);
 							}else{
 								//FLY
-								//trace("FLY");
 								v.Multiply(FLY_FORCE);
 								body.ApplyForce(v,position);
 							}
