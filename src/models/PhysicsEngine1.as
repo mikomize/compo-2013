@@ -241,7 +241,7 @@ package models
 			return false;
 		}
 		private var scouts = 0;
-		private static const MAX_SCOUTS:uint = 5;
+		private static const MAX_SCOUTS:uint = 15;
 		
 		private function createParticles():void
 		{
@@ -274,8 +274,16 @@ package models
 				getPlayer(index).setAngle(_playerBodies[index].GetAngle());
 				if(getPlayer(index).state ==  PlayerA.STATE_WIN){
 					getPlayer(index).setPosition(new Point(-1,-1));
+					_model.shadows[index].setPosition(new Point(-1,-1));
 				}else {
 					getPlayer(index).setPosition(new Point(position.x,position.y));
+					var row = Math.floor(position.y);
+					var col = Math.floor(position.x);
+					while(row>=0 && ! isSolid(row,col)){
+						row--;
+					}
+					_model.shadows[index].setPosition(new Point(position.x,row+1));
+					_model.shadows[index].setDistance(position.y - row);
 				}
 			}
 			updateParticles();

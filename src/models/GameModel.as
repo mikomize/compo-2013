@@ -47,6 +47,7 @@ package models
 		private var _physicsEngine:PhysicsEngineInterface;
 		public var particles:Vector.<Particle> = new Vector.<Particle>();
 		private var _playerA:PlayerA;
+		public var shadows:Vector.<Shadow> = new Vector.<Shadow>();
 		private var _playerB:PlayerB;
 		private var _tileManager:ITileManager;
 		
@@ -171,6 +172,10 @@ package models
 			_playerB = new PlayerB();
 			addEntity(_playerB);
 			
+			for(i=0;i<2;++i){
+				shadows.push(new Shadow());
+				addEntity(shadows[i]);
+			}
 			
 			return this;
 		}
