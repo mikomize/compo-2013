@@ -71,7 +71,10 @@ package models
 			if (_playerB.y > tmp) {
 				tmp = _playerB.y;
 			}
-			_camera.stick(tmp);
+			if (!scrolled) {
+				_camera.stick(tmp);
+				scrolled = true;
+			}
 		}
 		
 		public function initPhysics():void {

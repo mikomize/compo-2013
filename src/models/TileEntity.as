@@ -18,7 +18,7 @@ package models
 		
 		override public function updateView():void
 		{
-			x = _pos.x*GameModel.TILE_WIDTH + 1;
+			x = _pos.x*GameModel.TILE_WIDTH ;
 			y = (_model.tileManager.getRowsCount() * GameModel.TILE_HEIGHT)-(_model.tileManager.getRowsCount()-_pos.y)*GameModel.TILE_HEIGHT -8;
 		}
 		

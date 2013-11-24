@@ -5,13 +5,14 @@ package models
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Sprite;
-	import starling.events.Event;
 
 	public class Camera
 	{
 		
 		private var _canvas:Sprite;
 		private var _viewport:Sprite;
+		
+		private var _tmp:int;
 		
 		public function Camera(viewport:Rectangle, mapsize:Rectangle)
 		{
@@ -28,6 +29,8 @@ package models
 			_viewport.height = viewport.height;
 			
 			_viewport.clipRect = viewport;
+			
+			_tmp = viewport.height;
 			
 		}
 		
