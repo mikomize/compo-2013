@@ -167,15 +167,17 @@ package models
 				}
 			}
 			
+			for(i=0;i<2;++i){
+				shadows.push(new Shadow());
+				addEntity(shadows[i]);
+			}
+			
 			_playerA = new PlayerA();
 			addEntity(_playerA);
 			_playerB = new PlayerB();
 			addEntity(_playerB);
 			
-			for(i=0;i<2;++i){
-				shadows.push(new Shadow());
-				addEntity(shadows[i]);
-			}
+
 			
 			return this;
 		}
