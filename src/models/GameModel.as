@@ -63,9 +63,6 @@ package models
 		override public function advanceTime(time:Number):void {
 			super.advanceTime(time);
 			_physicsEngine.update(time);
-			for each( var entity:Entity in _entities) {
-				entity.updateView();
-			}
 			
 			var tmp:int = _playerA.y;
 			if (_playerB.y > tmp) {
@@ -83,7 +80,7 @@ package models
 		}
 		
 		public function initTailModel():void {
-			_tileManager = new LevelManger().init(0);
+			_tileManager = new LevelManger().init(1);
 		}
 		
 		public function addEntity(entity:Entity):void
