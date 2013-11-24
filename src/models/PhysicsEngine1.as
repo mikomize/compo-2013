@@ -25,6 +25,7 @@ package models
 		private var _FRAME_DURATION : Number = 1.0/30;
 		protected var _playerBodies: Vector.<b2Body> = new Vector.<b2Body>();
 		private var _particleBodies: Vector.<b2Body> = new Vector.<b2Body>();
+		private var scoutBodies: Vector.<b2Body> = new Vector.<b2Body>();
 
 		private var particleSpawingPoints : Vector.<Point> = new Vector.<Point>();
 		private var magnetPoints : Vector.<Point> = new Vector.<Point>();
@@ -365,8 +366,8 @@ package models
 		private function _processMagnetism():void
 		{
 			var particle_grid:Array = new Array();
-			for (var j:uint=0;j<_particleBodies.length;++j){
-				var body:b2Body = _particleBodies[j];
+			for (var j:uint=0;j<scoutBodies.length;++j){
+				var body:b2Body = scoutBodies[j];
 				if(body.GetUserData().kind != 'scout'){
 					continue;
 				}
@@ -382,7 +383,6 @@ package models
 				particle_grid[gx][gy].push(j);
 			}
 			
-			if(true||getPlayer(0).getPolarity()||getPlayer(1).getPolarity()){
 				var colsCount:Number = getColsCount();
 				var rowsCount:Number = getRowsCount();
 				//TODO: może by tak stablicować sobie te tile które są z metalu?
@@ -429,7 +429,7 @@ package models
 									for each (index in particle_grid[gx][gy]){
 										pairs++;
 										
-										body = _particleBodies[index];
+										body = scoutBodies[index];
 										polarity =  body.GetUserData().polarity;
 										position =body.GetPosition();
 										
@@ -445,15 +445,10 @@ package models
 										force.y = diff_y;
 										body.ApplyForce(force,position);
 										
-										/*
-										diff.normalize( MAGNETIC_BRICK_FORCE /diff.length);
-										
-										*/
 									}
 								}
 							}
 						
-					}
 				}
 			}
 		}
@@ -484,6 +479,12 @@ package models
 		private function killParticle(index:Number):void
 		{
 			if(_particleBodies[index].GetUserData().kind == 'scout'){
+				for(var j=0;j<scoutBodies.length;++j){
+					if(scoutBodies[j] == _particleBodies[index]){
+						scoutBodies[j] = scoutBodies[scoutBodies.length-1];
+						scoutBodies.pop();
+					}
+				}
 				scouts --;
 				knownParticleSpawningPoints.push(_particleBodies[index].GetUserData().start);
 				savedParticlePaths.push(_particleBodies[index].GetUserData().path);
@@ -497,18 +498,17 @@ package models
 			var position:Point ;
 			if(particleSpawingPoints.length && scouts < MAX_SCOUTS){
 				scouts++;
+				scoutBodies.push(_particleBodies[index]);
 				_particleBodies[index].GetUserData().polarity = -1+2*(particleSpawingPoints.length%2);
 				_model.particles[index].setPolarity(_particleBodies[index].GetUserData().polarity);
 				position = particleSpawingPoints.pop();
 				kind = 'scout';
-				trace ("spawn scout");
 				
 				_particleBodies[index].GetUserData().start = position;
 				_particleBodies[index].GetUserData().path = new Vector.<b2Vec2>();
 			}else if(knownParticleSpawningPoints.length){
 				
 				kind = 'replay';
-				trace ("spawn replay");
 				var i:uint = Math.floor(Math.random()*knownParticleSpawningPoints.length);
 				_model.particles[index].setPolarity(savedParticlePolarities[i]);
 				position = knownParticleSpawningPoints[i];
@@ -523,7 +523,7 @@ package models
 			_particleBodies[index].SetXForm(new b2Vec2(position.x,position.y),0);
 		}
 		private var currentParticle:uint=0;
-		private static const MAX_SAVED_PATH_LEN:uint = 60;
+		private static const MAX_SAVED_PATH_LEN:uint = 30;
 		private function _killParticles():void
 		{
 			for(var i:uint=0;i<_particleBodies.length;++i){
