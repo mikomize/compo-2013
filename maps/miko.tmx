@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="32" height="300" tilewidth="30" tileheight="30">
  <properties>
+  <property name="bg" value="BgMain"/>
+  <property name="bgRepeat" value="BgLevel1"/>
   <property name="phisicsEngineVersion" value="qbolectweakedbymiko"/>
  </properties>
  <tileset firstgid="1" name="Wood" tilewidth="30" tileheight="30">
@@ -8210,7 +8212,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="2"/>
+   <tile gid="9"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
