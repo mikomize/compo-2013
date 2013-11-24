@@ -4,6 +4,7 @@ package models
 	import flash.utils.Dictionary;
 	
 	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.textures.TextureAtlas;
 
@@ -29,11 +30,11 @@ package models
 		
 		protected function setSkin():void
 		{
-			//var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
+			var atlas:TextureAtlas = _gameAssets.getAtlas(GameAssetsEnum.general);
 			
 			skins = new Dictionary;
-			skins[-1] = new Quad(2,2,0xFF0000)
-			skins[1]  =  new Quad(2,2,0x0000FF)
+			skins[-1] = new Image(atlas.getTexture('blue'));
+			skins[1]  =  new Image(atlas.getTexture('red'));
 		}	
 		
 		override public function spawn():void
@@ -62,7 +63,7 @@ package models
 		public function setPolarity(value:int):void
 		{
 			polarity = value;
-			
+			selectSkin();
 		}
 	}
 }

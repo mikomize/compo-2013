@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:d1e802039a36e58d35588463ecddae0b:942c0d7237a66acb53a6bcc884ae21b2:07644cf19cb93bed4264459036bfb712$ -->
+<!-- $TexturePacker:SmartUpdate:2e595cc7dfb33b919a9fa0234ccb4d19:c31e7d42ff452cd6eb1a7a758f0714d4:07644cf19cb93bed4264459036bfb712$ -->
 <TextureAtlas imagePath="general.png">
+    <SubTexture name="blue" x="235" y="2" width="5" height="5"/>
     <SubTexture name="metal1" x="64" y="202" width="38" height="38"/>
     <SubTexture name="metalMinus" x="64" y="162" width="38" height="38"/>
     <SubTexture name="metalPlus" x="184" y="122" width="38" height="38"/>
@@ -11,6 +12,7 @@
     <SubTexture name="p2" x="2" y="126" width="60" height="60"/>
     <SubTexture name="p2n" x="2" y="64" width="60" height="60"/>
     <SubTexture name="p2p" x="2" y="2" width="60" height="60"/>
+    <SubTexture name="red" x="228" y="2" width="5" height="5"/>
     <SubTexture name="wood1" x="144" y="104" width="38" height="38"/>
     <SubTexture name="wood2" x="104" y="104" width="38" height="38"/>
     <SubTexture name="wood3" x="64" y="104" width="38" height="38"/>
