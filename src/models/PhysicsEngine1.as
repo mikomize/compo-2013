@@ -27,7 +27,7 @@ package models
 		private static const FLY_FORCE:Number = 10;
 		private static const WALK_FORCE:Number = 20;
 		private static const JUMP_IMPULSE:Number = 45;
-		
+		private static const FORBID_JUMP_VELOCITY:Number = 0.01;
 		public function PhysicsEngine1()
 		{
 		}
@@ -92,7 +92,7 @@ package models
 			var worldAABB:b2AABB = new b2AABB();
 			worldAABB.lowerBound.Set(-10, -10);
 			worldAABB.upperBound.Set(10+getColsCount(), 10+getRowsCount());
-			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), true);
+			_world = new b2World(worldAABB, new b2Vec2 (0.0, -9.81), false);
 			_world.SetContactListener(new PhysicsEngine1ContactListener());
 			for(var index:Number=0;index<2;++index)
 				_playerBodies.push(spawnPlayer(index));
@@ -127,7 +127,7 @@ package models
 		private var DX :Array= new Array(-1,0,1,0);
 		private var DY :Array= new Array(0,1,0,-1);
 		
-		private function getContactDirections(body:b2Body):Array
+		private function getEmulatedContactDirections(body:b2Body):Array
 		{
 			var contactDirections:Array = new Array(false,false,false,false);
 			var pos:b2Vec2 = body.GetPosition();
@@ -138,10 +138,21 @@ package models
 				var probe_y:Number = pos.y+dy;
 				var row:Number = Math.floor(probe_y);
 				var col:Number = Math.floor(probe_x);
-		
+				
 				contactDirections[d] =  row<0 || col<0 || row>=getRowsCount() || col>=getColsCount() ||  _model.tileManager.getCell(getRowsCount()-1-row,col).getAttrib(TileTypes.MATERIAL_ATTR)!=TileTypes.AIR;
-				//contactDirections[d] = body.GetUserData().collisions[d]>0;
 			}
+			return contactDirections;
+		}
+		
+		
+		private function getContactDirections(body:b2Body):Array
+		{
+			var contactDirections:Array = new Array(false,false,false,false);
+			for(var d:Number=0;d<4;++d){
+				contactDirections[d] = body.GetUserData().collisions[d]>0;
+			}
+			//trace(body.GetUserData().collisions);
+			body.GetUserData().collisions = new Array(0,0,0,0);
 			return contactDirections;
 		}
 		
@@ -150,6 +161,7 @@ package models
 			for(var index:Number=0;index<2;++index){
 				var body:b2Body = _playerBodies[index];
 				var position:b2Vec2=body.GetPosition();
+				var velocity:b2Vec2=body.GetLinearVelocity();
 				var player:PlayerA = this.getPlayer(index);
 				var direction:Point = player.getIntendedDirection();
 				var contactDirections:Array = getContactDirections(body);
@@ -167,9 +179,15 @@ package models
 						if(direction.x*dx+direction.y*dy >0){
 							if(contactDirections[(d+2)%4]){
 								//JUMP
-								trace("JUMP");
-								v.Multiply(JUMP_IMPULSE);
-								body.ApplyImpulse(v,position);
+								var jumpVelocity:Number = velocity.x*dx + velocity.y*dy;
+								trace("jumpVelocity",jumpVelocity);
+								if(jumpVelocity < FORBID_JUMP_VELOCITY){
+									trace("JUMP");
+									v.Multiply(JUMP_IMPULSE);
+									body.ApplyImpulse(v,position);
+								}else{
+									trace("FORBIDEN JUMP");
+								}
 							}else if(contactDirections[(d+1)%4] || contactDirections[(d+3)%4]){
 								//WALK
 								//trace("WALK");
