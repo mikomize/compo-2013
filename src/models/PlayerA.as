@@ -12,6 +12,8 @@ package models
 		[Inject]
 		public var _gameAssets:GameAssets;
 		
+		private var polarity:int
+		
 		public function PlayerA()
 		{
 			super();
@@ -55,6 +57,11 @@ package models
 				}
 			}
 			return tmp;
+		}
+		
+		public function getPolarity():int
+		{
+			return 1;
 		}
 	}
 }
